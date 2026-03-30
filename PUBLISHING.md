@@ -1,4 +1,4 @@
-# Publishing Guide for @pixielity/container
+# Publishing Guide for @pixielity/react-di
 
 This guide explains how to publish the package to npm using GitHub Actions.
 
@@ -17,7 +17,7 @@ This guide explains how to publish the package to npm using GitHub Actions.
 5. Copy the token (starts with `npm_...`)
 
 ### 3. Add npm Token to GitHub Secrets
-1. Go to your repository: https://github.com/pixielity-inc/container
+1. Go to your repository: https://github.com/pixielity-inc/react-di
 2. Click "Settings" → "Secrets and variables" → "Actions"
 3. Click "New repository secret"
 4. Name: `NPM_TOKEN`
@@ -43,7 +43,7 @@ The GitHub Action will automatically:
 - Publish to npm
 
 #### Manual Trigger
-1. Go to: https://github.com/pixielity-inc/container/actions
+1. Go to: https://github.com/pixielity-inc/react-di/actions
 2. Click "Publish to npm" workflow
 3. Click "Run workflow"
 4. Select branch and click "Run workflow"
@@ -95,10 +95,10 @@ Before publishing, ensure:
 
 After publishing:
 
-1. Check npm: https://www.npmjs.com/package/@pixielity/container
+1. Check npm: https://www.npmjs.com/package/@pixielity/react-di
 2. Test installation:
    ```bash
-   npm install @pixielity/container
+   npm install @pixielity/react-di
    ```
 
 ## Troubleshooting
@@ -148,5 +148,5 @@ The repository includes two workflows:
 ## Support
 
 For issues or questions:
-- GitHub Issues: https://github.com/pixielity-inc/container/issues
-- npm Package: https://www.npmjs.com/package/@pixielity/container
+- GitHub Issues: https://github.com/pixielity-inc/react-di/issues
+- npm Package: https://www.npmjs.com/package/@pixielity/react-di

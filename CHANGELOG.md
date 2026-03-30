@@ -1,4 +1,4 @@
-# @pixielity/container
+# @pixielity/react-di
 
 ## 1.0.0 (Initial Release)
 

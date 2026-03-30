@@ -1,4 +1,4 @@
-# @pixielity/container
+# @pixielity/react-di
 
 Dependency injection container for React with NestJS-style modules. Built on top of [Inversiland](https://github.com/inversiland/inversiland) to provide powerful, type-safe dependency injection for React applications.
 
@@ -14,11 +14,11 @@ Dependency injection container for React with NestJS-style modules. Built on top
 ## Installation
 
 ```bash
-npm install @pixielity/container
+npm install @pixielity/react-di
 # or
-yarn add @pixielity/container
+yarn add @pixielity/react-di
 # or
-pnpm add @pixielity/container
+pnpm add @pixielity/react-di
 ```
 
 ## Quick Start
@@ -26,7 +26,7 @@ pnpm add @pixielity/container
 ### 1. Define Services
 
 ```typescript
-import { Injectable, Inject } from "@pixielity/container";
+import { Injectable, Inject } from "@pixielity/react-di";
 
 @Injectable()
 export class Logger {
@@ -49,7 +49,7 @@ export class UserService {
 ### 2. Create a Module
 
 ```typescript
-import { Module } from "@pixielity/container";
+import { Module } from "@pixielity/react-di";
 import { UserService } from "./user.service";
 import { Logger } from "./logger.service";
 
@@ -63,7 +63,7 @@ export class UserModule {}
 ### 3. Create Root Module
 
 ```typescript
-import { Module } from "@pixielity/container";
+import { Module } from "@pixielity/react-di";
 import { UserModule } from "./user/user.module";
 
 @Module({
@@ -78,7 +78,7 @@ export class AppModule {}
 // main.tsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ContainerProvider } from "@pixielity/container";
+import { ContainerProvider } from "@pixielity/react-di";
 import { AppModule } from "./app.module";
 import App from "./App";
 
@@ -100,7 +100,7 @@ createRoot(document.getElementById("root")!).render(
 ### 5. Use in Components
 
 ```typescript
-import { useInject } from "@pixielity/container";
+import { useInject } from "@pixielity/react-di";
 import { UserService } from "./user.service";
 
 function UserList() {
@@ -123,7 +123,7 @@ function UserList() {
 For non-React applications:
 
 ```typescript
-import { Inversiland, getModuleContainer } from "@pixielity/container";
+import { Inversiland, getModuleContainer } from "@pixielity/react-di";
 import { AppModule } from "./app.module";
 import { UserService } from "./user.service";
 
@@ -142,7 +142,7 @@ const userService = container.get(UserService);
 Create configurable modules with `forRoot` and `forFeature` patterns:
 
 ```typescript
-import { Module, forRoot, type DynamicModule } from "@pixielity/container";
+import { Module, forRoot, type DynamicModule } from "@pixielity/react-di";
 
 export const DATABASE_CONFIG = Symbol("DATABASE_CONFIG");
 

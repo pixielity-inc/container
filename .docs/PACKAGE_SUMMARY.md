@@ -1,4 +1,4 @@
-# @pixielity/container - Package Summary
+# @pixielity/react-di - Package Summary
 
 ## 📦 Package Overview
 
@@ -366,7 +366,7 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Package**: @pixielity/container
+**Package**: @pixielity/react-di
 **Version**: 1.0.0
 **Status**: Production Ready ✅
 **Last Updated**: March 29, 2026
