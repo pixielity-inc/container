@@ -1,5 +1,5 @@
 {
-  "name": "@pixielity/react-di",
+  "name": "@abdokouta/react-di",
   "version": "1.0.0",
   "description": "Dependency injection for React - NestJS-style modules powered by Inversiland",
   "keywords": [
