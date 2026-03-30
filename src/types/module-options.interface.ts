@@ -3,7 +3,7 @@
  * 
  * Defines the standard interface for module configuration options.
  * 
- * @module @pixielity/container
+ * @module @pixielity/react-di
  * @category Types
  */
 import type { Scope } from "./scope.type";
@@ -18,7 +18,7 @@ import type { LogLevel } from "./log-level.type";
  * 
  * @example
  * ```typescript
- * import { IModuleOptions } from '@pixielity/container';
+ * import { IModuleOptions } from '@pixielity/react-di';
  * 
  * export interface MyModuleOptions extends IModuleOptions {
  *   customOption: string;
@@ -64,7 +64,7 @@ export interface IModuleOptions {
  * 
  * @example
  * ```typescript
- * import { IModuleAsyncOptions } from '@pixielity/container';
+ * import { IModuleAsyncOptions } from '@pixielity/react-di';
  * 
  * export interface MyModuleAsyncOptions extends IModuleAsyncOptions<MyModuleOptions> {
  *   // Additional async-specific options

@@ -5,7 +5,7 @@
  * This decorator simplifies the syntax for creating global modules by automatically
  * marking all providers as global.
  * 
- * @module @pixielity/container
+ * @module @pixielity/react-di
  * @category Decorators
  */
 
@@ -26,7 +26,7 @@ import { METADATA_KEYS } from '@/constants';
  * 
  * @example Basic usage
  * ```typescript
- * import { Global, applyGlobalIfNeeded } from '@pixielity/container';
+ * import { Global, applyGlobalIfNeeded } from '@pixielity/react-di';
  * import { module } from 'inversiland';
  * 
  * @Global()
@@ -53,7 +53,7 @@ import { METADATA_KEYS } from '@/constants';
  * 
  * @example With dynamic module
  * ```typescript
- * import { Global, applyGlobalIfNeeded } from '@pixielity/container';
+ * import { Global, applyGlobalIfNeeded } from '@pixielity/react-di';
  * 
  * @Global()
  * @module({})
@@ -76,7 +76,7 @@ import { METADATA_KEYS } from '@/constants';
  * 
  * @example Without @Global() - manual approach
  * ```typescript
- * import { makeProvidersGlobal } from '@pixielity/container';
+ * import { makeProvidersGlobal } from '@pixielity/react-di';
  * 
  * @module({})
  * export class CacheModule {

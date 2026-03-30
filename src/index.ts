@@ -1,5 +1,5 @@
 /**
- * @pixielity/container
+ * @pixielity/react-di
  *
  * Dependency injection container for React with NestJS-style modules.
  * Built on top of Inversiland for powerful, type-safe dependency injection
@@ -8,7 +8,7 @@
  * @example
  * Basic module and service setup:
  * ```typescript
- * import { Module, Injectable, Inject } from '@pixielity/container';
+ * import { Module, Injectable, Inject } from '@pixielity/react-di';
  * import 'reflect-metadata';
  *
  * @Injectable()
@@ -37,7 +37,7 @@
  * @example
  * Using in React components:
  * ```typescript
- * import { ModuleProvider, useInject } from '@pixielity/container';
+ * import { ModuleProvider, useInject } from '@pixielity/react-di';
  * import { AppModule } from './app.module';
  *
  * function App() {
@@ -69,7 +69,7 @@
  * export class AppModule {}
  * ```
  *
- * @module @pixielity/container
+ * @module @pixielity/react-di
  */
 
 import "reflect-metadata";

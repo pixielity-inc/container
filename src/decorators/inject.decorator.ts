@@ -12,7 +12,7 @@ import type { ServiceIdentifier } from "@/types/provider.type";
  *
  * @example
  * ```typescript
- * import { Injectable, Inject } from "@pixielity/container";
+ * import { Injectable, Inject } from "@pixielity/react-di";
  *
  * @Injectable()
  * export class UserService {

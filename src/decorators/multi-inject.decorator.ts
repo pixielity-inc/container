@@ -12,7 +12,7 @@ import type { ServiceIdentifier } from "@/types/provider.type";
  *
  * @example
  * ```typescript
- * import { Injectable, MultiInject } from "@pixielity/container";
+ * import { Injectable, MultiInject } from "@pixielity/react-di";
  *
  * const PLUGIN_TOKEN = Symbol("Plugin");
  *

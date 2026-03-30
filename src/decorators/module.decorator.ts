@@ -15,7 +15,7 @@ import type { ModuleMetadata } from "@/types/module-metadata.type";
  *
  * @example
  * ```typescript
- * import { Module } from "@pixielity/container";
+ * import { Module } from "@pixielity/react-di";
  *
  * @Module({
  *   imports: [CommonModule],

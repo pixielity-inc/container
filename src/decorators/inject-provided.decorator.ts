@@ -15,7 +15,7 @@ import type { ServiceIdentifier } from "@/types/provider.type";
  *
  * @example
  * ```typescript
- * import { Injectable, InjectProvided } from "@pixielity/container";
+ * import { Injectable, InjectProvided } from "@pixielity/react-di";
  *
  * @Injectable()
  * export class CatsController {

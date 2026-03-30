@@ -46,7 +46,7 @@ export interface ContainerProviderProps {
  * 
  * @example
  * ```typescript
- * import { ContainerProvider } from '@pixielity/container';
+ * import { ContainerProvider } from '@pixielity/react-di';
  * import { AppModule } from './app.module';
  * 
  * function App() {
