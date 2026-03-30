@@ -1,0 +1,129 @@
+{
+  "mcpServers": {
+    "heroui-react": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@heroui/react-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "list_components",
+        "get_component_docs",
+        "get_component_source_code",
+        "get_component_source_styles",
+        "get_theme_variables",
+        "get_docs"
+      ]
+    },
+    "upstash": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/mcp-server@latest",
+        "--email",
+        "akouta66@gmail.com",
+        "--api-key",
+        "7cc28e73-5bbf-4b6b-bce9-1e0c9ad03bb4"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "redis_database_get_details",
+        "redis_database_run_redis_commands"
+      ]
+    },
+    "npm-package-docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "npm-package-docs-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@latest",
+        "."
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github@latest"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "git": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "."
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres@latest"
+      ],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "sqlite": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-sqlite",
+        "--db-path",
+        "./data.db"
+      ],
+      "disabled": true,
+      "autoApprove": []
+    },
+    "docker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-docker@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search@latest"
+      ],
+      "env": {
+        "BRAVE_API_KEY": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    }
+  }
+}

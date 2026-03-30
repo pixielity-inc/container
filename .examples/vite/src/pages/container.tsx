@@ -4,6 +4,7 @@ import {
   Card,
   Button,
   Input,
+  Label,
   Table,
   TableHeader,
   TableColumn,
@@ -43,6 +44,7 @@ export default function ContainerPage() {
         email: newUserEmail,
         role: 'User',
       };
+
       userService.addUser(newUser);
       setUsers(userService.getUsers());
       setNewUserName('');
@@ -70,16 +72,12 @@ export default function ContainerPage() {
               Demonstrates singleton service with reactive state management
             </p>
             <div className="flex items-center gap-4">
-              <Button color="primary" onPress={() => counterService.decrement()}>
-                Decrement
-              </Button>
-              <Chip color="primary" size="lg" variant="flat">
-                Count: {count}
+              <Button onPress={() => counterService.decrement()}>Decrement</Button>
+              <Chip color="accent" size="lg" variant="soft">
+                <Chip.Label>Count: {count}</Chip.Label>
               </Chip>
-              <Button color="primary" onPress={() => counterService.increment()}>
-                Increment
-              </Button>
-              <Button color="default" variant="flat" onPress={() => counterService.reset()}>
+              <Button onPress={() => counterService.increment()}>Increment</Button>
+              <Button variant="secondary" onPress={() => counterService.reset()}>
                 Reset
               </Button>
             </div>
@@ -94,20 +92,26 @@ export default function ContainerPage() {
 
             {/* Add User Form */}
             <div className="flex gap-2 mb-4">
-              <Input
-                label="Name"
-                placeholder="Enter name"
-                value={newUserName}
-                onChange={(e) => setNewUserName(e.target.value)}
-              />
-              <Input
-                label="Email"
-                placeholder="Enter email"
-                type="email"
-                value={newUserEmail}
-                onChange={(e) => setNewUserEmail(e.target.value)}
-              />
-              <Button color="primary" onPress={handleAddUser}>
+              <div className="flex flex-col gap-1 flex-1">
+                <Label htmlFor="user-name">Name</Label>
+                <Input
+                  id="user-name"
+                  placeholder="Enter name"
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-1 flex-1">
+                <Label htmlFor="user-email">Email</Label>
+                <Input
+                  id="user-email"
+                  placeholder="Enter email"
+                  type="email"
+                  value={newUserEmail}
+                  onChange={(e) => setNewUserEmail(e.target.value)}
+                />
+              </div>
+              <Button className="self-end" onPress={handleAddUser}>
                 Add User
               </Button>
             </div>
@@ -129,18 +133,13 @@ export default function ContainerPage() {
                       <Chip
                         color={user.role === 'Admin' ? 'success' : 'default'}
                         size="sm"
-                        variant="flat"
+                        variant="soft"
                       >
-                        {user.role}
+                        <Chip.Label>{user.role}</Chip.Label>
                       </Chip>
                     </TableCell>
                     <TableCell>
-                      <Button
-                        color="danger"
-                        size="sm"
-                        variant="flat"
-                        onPress={() => handleDeleteUser(user.id)}
-                      >
+                      <Button size="sm" variant="danger" onPress={() => handleDeleteUser(user.id)}>
                         Delete
                       </Button>
                     </TableCell>

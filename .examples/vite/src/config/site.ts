@@ -13,6 +13,10 @@ export const siteConfig = {
       href: '/container',
     },
     {
+      label: 'Advanced',
+      href: '/advanced',
+    },
+    {
       label: 'Docs',
       href: '/docs',
     },
