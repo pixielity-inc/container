@@ -79,6 +79,7 @@ import "reflect-metadata";
 // ============================================================================
 export {
   Module,
+  Global,
   Injectable,
   Inject,
   MultiInject,
