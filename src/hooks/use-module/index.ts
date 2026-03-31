@@ -7,4 +7,4 @@
  * @category Hooks
  */
 
-export { useModule } from './use-module.hook';
+export { useModule } from "./use-module.hook";

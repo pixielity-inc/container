@@ -1,5 +1,5 @@
-import { injectImported } from 'inversiland';
-import type { ServiceIdentifier } from '../types';
+import { injectImported } from "inversiland";
+import type { ServiceIdentifier } from "../types";
 
 /**
  * Inject Imported Decorator
@@ -28,7 +28,8 @@ import type { ServiceIdentifier } from '../types';
  * @public
  */
 export const InjectImported = <T = unknown>(
-  serviceIdentifier: ServiceIdentifier<T>
+  serviceIdentifier: ServiceIdentifier<T>,
 ): ParameterDecorator & PropertyDecorator => {
-  return injectImported(serviceIdentifier as never) as ParameterDecorator & PropertyDecorator;
+  return injectImported(serviceIdentifier as never) as ParameterDecorator &
+    PropertyDecorator;
 };

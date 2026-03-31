@@ -1,18 +1,6 @@
 import { useState, useEffect } from "react";
 import { useInject } from "@abdokouta/react-di";
-import {
-  Card,
-  Button,
-  Input,
-  Label,
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Chip,
-} from "@heroui/react";
+import { Card, Button, Input, Label, Table, Chip } from "@heroui/react";
 
 import { CounterService } from "@/services/counter.service";
 import { UserService, type User } from "@/services/user.service";
@@ -125,18 +113,18 @@ export default function ContainerPage() {
 
             {/* Users Table */}
             <Table aria-label="Users table">
-              <TableHeader>
-                <TableColumn>NAME</TableColumn>
-                <TableColumn>EMAIL</TableColumn>
-                <TableColumn>ROLE</TableColumn>
-                <TableColumn>ACTIONS</TableColumn>
-              </TableHeader>
-              <TableBody>
+              <Table.Header>
+                <Table.Column>NAME</Table.Column>
+                <Table.Column>EMAIL</Table.Column>
+                <Table.Column>ROLE</Table.Column>
+                <Table.Column>ACTIONS</Table.Column>
+              </Table.Header>
+              <Table.Body>
                 {users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
+                  <Table.Row key={user.id}>
+                    <Table.Cell>{user.name}</Table.Cell>
+                    <Table.Cell>{user.email}</Table.Cell>
+                    <Table.Cell>
                       <Chip
                         color={user.role === "Admin" ? "success" : "default"}
                         size="sm"
@@ -144,8 +132,8 @@ export default function ContainerPage() {
                       >
                         <Chip.Label>{user.role}</Chip.Label>
                       </Chip>
-                    </TableCell>
-                    <TableCell>
+                    </Table.Cell>
+                    <Table.Cell>
                       <Button
                         size="sm"
                         variant="danger"
@@ -153,10 +141,10 @@ export default function ContainerPage() {
                       >
                         Delete
                       </Button>
-                    </TableCell>
-                  </TableRow>
+                    </Table.Cell>
+                  </Table.Row>
                 ))}
-              </TableBody>
+              </Table.Body>
             </Table>
           </Card>
 

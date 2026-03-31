@@ -6,8 +6,11 @@
  * @module hooks/use-container
  */
 
-import { useContext } from 'react';
-import { ContainerContext, type ContainerContextValue } from '@/contexts/container.context';
+import { useContext } from "react";
+import {
+  ContainerContext,
+  type ContainerContextValue,
+} from "@/contexts/container.context";
 
 /**
  * Hook to access the current container context
@@ -29,8 +32,8 @@ export function useContainer(): ContainerContextValue {
 
   if (!context) {
     throw new Error(
-      'useContainer must be used within a ContainerProvider. ' +
-        'Wrap your component tree with <ContainerProvider module={YourModule}>...</ContainerProvider>'
+      "useContainer must be used within a ContainerProvider. " +
+        "Wrap your component tree with <ContainerProvider module={YourModule}>...</ContainerProvider>",
     );
   }
 

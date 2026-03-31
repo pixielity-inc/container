@@ -1,6 +1,6 @@
-import { module } from 'inversiland';
+import { module } from "inversiland";
 
-import type { ModuleMetadataArg } from '@/types';
+import type { ModuleMetadataArg } from "@/types";
 
 /**
  * Module Decorator

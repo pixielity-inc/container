@@ -7,4 +7,4 @@
  * @category Hooks
  */
 
-export { useInject } from './use-inject.hook';
+export { useInject } from "./use-inject.hook";

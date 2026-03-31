@@ -6,7 +6,7 @@
  * @module @pixielity/react-di
  * @category Interfaces
  */
-import type { IContainerConfig } from './container-config.interface';
+import type { IContainerConfig } from "./container-config.interface";
 
 /**
  * Async module options interface

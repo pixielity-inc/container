@@ -7,4 +7,4 @@
  * @category Hooks
  */
 
-export { useContainer } from './use-container.hook';
+export { useContainer } from "./use-container.hook";

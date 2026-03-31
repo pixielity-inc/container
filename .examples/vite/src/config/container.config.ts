@@ -6,7 +6,7 @@
  * @module @abdokouta/react-di
  * @category Config
  */
-import type { IContainerConfig } from '@abdokouta/react-di';
+import type { IContainerConfig } from "@abdokouta/react-di";
 
 /**
  * Default container configuration
@@ -16,11 +16,12 @@ import type { IContainerConfig } from '@abdokouta/react-di';
 export const containerConfig: Required<IContainerConfig> = {
   /**
    * Default log level
+   * Change to "debug" for detailed logs, "none" to disable logging
    */
-  logLevel: 'info',
+  logLevel: "debug",
 
   /**
    * Default scope for providers
    */
-  defaultScope: 'Singleton',
+  defaultScope: "Singleton",
 };

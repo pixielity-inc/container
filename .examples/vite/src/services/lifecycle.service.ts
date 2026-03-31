@@ -23,12 +23,10 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
    * Called by module's onActivation hook after construction
    * Use for async setup, resource allocation, etc.
    */
-  async onModuleInit(): Promise<void> {
+  onModuleInit(): void {
     this.logger.info('LifecycleService.onModuleInit() - Initializing resources...');
 
-    // Simulate async initialization
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
+    // Simulate initialization (sync version for demo)
     this.resources.push('Database Connection');
     this.resources.push('Cache Connection');
     this.resources.push('Message Queue');

@@ -7,12 +7,15 @@
  * @module providers/container
  */
 
-import { useMemo, type ReactNode } from 'react';
-import { getModuleContainer, Inversiland } from 'inversiland';
-import type { Newable } from 'inversiland';
-import { ContainerContext, type ContainerContextValue } from '@/contexts/container.context';
-import type { IModuleOptions } from '@/interfaces/module-options.interface';
-import { containerConfig } from '../../config/container.config';
+import { useMemo, type ReactNode } from "react";
+import { getModuleContainer, Inversiland } from "inversiland";
+import type { Newable } from "inversiland";
+import {
+  ContainerContext,
+  type ContainerContextValue,
+} from "@/contexts/container.context";
+import type { IModuleOptions } from "@/interfaces/module-options.interface";
+import { containerConfig } from "../../config/container.config";
 
 /**
  * Track initialized modules to prevent duplicate initialization
@@ -58,7 +61,7 @@ export interface ContainerProviderProps {
  *
  * function App() {
  *   return (
- *     <ContainerProvider 
+ *     <ContainerProvider
  *       module={AppModule}
  *       options={{
  *         logLevel: 'debug',
@@ -71,22 +74,35 @@ export interface ContainerProviderProps {
  * }
  * ```
  */
-export function ContainerProvider({ module, options, children }: ContainerProviderProps) {
+export function ContainerProvider({
+  module,
+  options,
+  children,
+}: ContainerProviderProps) {
   // Merge provided options with defaults
-  const config = useMemo(() => ({
-    ...containerConfig,
-    ...options,
-  }), [options]);
+  const config = useMemo(
+    () => ({
+      ...containerConfig,
+      ...options,
+    }),
+    [options],
+  );
 
   // Memoize container initialization to prevent multiple initializations in StrictMode
   const value = useMemo<ContainerContextValue>(() => {
     const logLevel = config.logLevel;
-    const shouldLog = logLevel !== 'none';
+    const shouldLog = logLevel !== "none";
 
     if (shouldLog) {
-      console.log('[ContainerProvider] Initializing container for module:', module.name);
-      console.log('[ContainerProvider] Config:', config);
-      console.log('[ContainerProvider] Module already initialized?', initializedModules.has(module));
+      console.log(
+        "[ContainerProvider] Initializing container for module:",
+        module.name,
+      );
+      console.log("[ContainerProvider] Config:", config);
+      console.log(
+        "[ContainerProvider] Module already initialized?",
+        initializedModules.has(module),
+      );
     }
 
     // Check if we've already initialized this module
@@ -100,33 +116,44 @@ export function ContainerProvider({ module, options, children }: ContainerProvid
       }
 
       if (shouldLog) {
-        console.log('[ContainerProvider] First initialization - calling Inversiland.run()...');
+        console.log(
+          "[ContainerProvider] First initialization - calling Inversiland.run()...",
+        );
       }
 
       try {
         Inversiland.run(module);
         initializedModules.add(module);
         if (shouldLog) {
-          console.log('[ContainerProvider] ✓ Inversiland.run() completed successfully');
+          console.log(
+            "[ContainerProvider] ✓ Inversiland.run() completed successfully",
+          );
         }
       } catch (runError: any) {
         // Check if error is "already running" - this is OK, means another instance initialized it
         if (
-          runError?.message?.includes('already running') ||
-          runError?.message?.includes('alreadyRunning')
+          runError?.message?.includes("already running") ||
+          runError?.message?.includes("alreadyRunning")
         ) {
           if (shouldLog) {
-            console.log('[ContainerProvider] Module already initialized by another instance');
+            console.log(
+              "[ContainerProvider] Module already initialized by another instance",
+            );
           }
           initializedModules.add(module);
         } else {
-          console.error('[ContainerProvider] ❌ Inversiland.run() failed:', runError);
+          console.error(
+            "[ContainerProvider] ❌ Inversiland.run() failed:",
+            runError,
+          );
           throw runError;
         }
       }
     } else {
       if (shouldLog) {
-        console.log('[ContainerProvider] Module already initialized, skipping Inversiland.run()');
+        console.log(
+          "[ContainerProvider] Module already initialized, skipping Inversiland.run()",
+        );
       }
     }
 
@@ -135,15 +162,24 @@ export function ContainerProvider({ module, options, children }: ContainerProvid
     try {
       container = getModuleContainer(module);
       if (shouldLog) {
-        console.log('[ContainerProvider] ✓ Container retrieved, ID:', container.innerContainer.id);
+        console.log(
+          "[ContainerProvider] ✓ Container retrieved, ID:",
+          container.innerContainer.id,
+        );
       }
     } catch (getError) {
-      console.error('[ContainerProvider] ❌ Failed to get container:', getError);
+      console.error(
+        "[ContainerProvider] ❌ Failed to get container:",
+        getError,
+      );
       throw getError;
     }
 
     if (shouldLog) {
-      console.log('[ContainerProvider] Container ready, ID:', container.innerContainer.id);
+      console.log(
+        "[ContainerProvider] Container ready, ID:",
+        container.innerContainer.id,
+      );
     }
 
     return {
@@ -152,12 +188,16 @@ export function ContainerProvider({ module, options, children }: ContainerProvid
     };
   }, [module, config]);
 
-  if (config.logLevel !== 'none') {
-    console.log('[ContainerProvider] Rendering with value:', {
+  if (config.logLevel !== "none") {
+    console.log("[ContainerProvider] Rendering with value:", {
       containerId: value.container.innerContainer.id,
       moduleClass: value.moduleClass.name,
     });
   }
 
-  return <ContainerContext.Provider value={value}>{children}</ContainerContext.Provider>;
+  return (
+    <ContainerContext.Provider value={value}>
+      {children}
+    </ContainerContext.Provider>
+  );
 }

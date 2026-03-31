@@ -72,7 +72,7 @@
  * @module @abdokouta/react-di
  */
 
-import 'reflect-metadata';
+import "reflect-metadata";
 
 // ============================================================================
 // Decorators
@@ -88,7 +88,7 @@ export {
   InjectImported,
   MultiInjectProvided,
   MultiInjectImported,
-} from './decorators';
+} from "./decorators";
 
 // ============================================================================
 // Types (from Inversiland)
@@ -118,7 +118,7 @@ export type {
   // Custom Types
   Scope,
   LogLevel,
-} from './types';
+} from "./types";
 
 // ============================================================================
 // Interfaces (Custom)
@@ -130,32 +130,37 @@ export type {
   OnModuleInit,
   OnModuleDestroy,
   ContainerProviderProps,
-} from './interfaces';
+} from "./interfaces";
 
-export { hasOnModuleInit, hasOnModuleDestroy } from './interfaces';
+export { hasOnModuleInit, hasOnModuleDestroy } from "./interfaces";
 
 // ============================================================================
 // React Hooks
 // ============================================================================
-export { useInject, useModule, useContainer } from './hooks';
+export { useInject, useModule, useContainer } from "./hooks";
 
 // ============================================================================
 // React Providers
 // ============================================================================
-export { ContainerProvider } from './providers';
+export { ContainerProvider } from "./providers";
 
 // ============================================================================
 // Utilities
 // ============================================================================
-export { createModuleFactory, forRoot, forFeature } from './utils';
+export { createModuleFactory, forRoot, forFeature } from "./utils";
 
 // ============================================================================
 // Constants
 // ============================================================================
-export { METADATA_KEYS, DEFAULTS } from './constants';
+export { METADATA_KEYS, DEFAULTS } from "./constants";
 
 // ============================================================================
 // React Contexts
 // ============================================================================
-export { ContainerContext } from './contexts';
-export type { ContainerContextValue } from './contexts';
+export { ContainerContext } from "./contexts";
+export type { ContainerContextValue } from "./contexts";
+
+// ============================================================================
+// InversifyJS / Inversiland Exports
+// ============================================================================
+export type { interfaces, DecoratorTarget } from "@inversiland/inversify";

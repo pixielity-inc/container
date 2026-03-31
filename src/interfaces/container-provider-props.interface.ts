@@ -6,9 +6,9 @@
  * @module @pixielity/react-di
  * @category Interfaces
  */
-import type { ReactNode } from 'react';
-import type { Newable } from 'inversiland';
-import type { IModuleOptions } from './module-options.interface';
+import type { ReactNode } from "react";
+import type { Newable } from "inversiland";
+import type { IModuleOptions } from "./module-options.interface";
 
 /**
  * Props for ContainerProvider component
@@ -21,10 +21,10 @@ export interface ContainerProviderProps {
 
   /**
    * Configuration options for the container
-   * 
+   *
    * @example
    * ```typescript
-   * <ContainerProvider 
+   * <ContainerProvider
    *   module={AppModule}
    *   options={{
    *     logLevel: 'debug',

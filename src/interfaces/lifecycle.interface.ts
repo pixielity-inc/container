@@ -50,12 +50,12 @@ export interface OnModuleDestroy {
  * Type guard to check if an object implements OnModuleInit
  */
 export function hasOnModuleInit(obj: any): obj is OnModuleInit {
-  return obj != null && typeof obj.onModuleInit === 'function';
+  return obj != null && typeof obj.onModuleInit === "function";
 }
 
 /**
  * Type guard to check if an object implements OnModuleDestroy
  */
 export function hasOnModuleDestroy(obj: any): obj is OnModuleDestroy {
-  return obj != null && typeof obj.onModuleDestroy === 'function';
+  return obj != null && typeof obj.onModuleDestroy === "function";
 }

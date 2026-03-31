@@ -1,5 +1,5 @@
-import { inject } from 'inversiland';
-import type { ServiceIdentifier } from '../types';
+import { inject } from "inversiland";
+import type { ServiceIdentifier } from "../types";
 
 /**
  * Inject Decorator
@@ -36,7 +36,7 @@ import type { ServiceIdentifier } from '../types';
  * @public
  */
 export function Inject<T = unknown>(
-  serviceIdentifier: ServiceIdentifier<T>
+  serviceIdentifier: ServiceIdentifier<T>,
 ): ParameterDecorator & PropertyDecorator {
   return inject(serviceIdentifier) as ParameterDecorator & PropertyDecorator;
 }

@@ -6,8 +6,8 @@
  * @module @abdokouta/react-di
  * @category Interfaces
  */
-import type { Scope } from '../types/scope.type';
-import type { LogLevel } from '../types/log-level.type';
+import type { Scope } from "../types/scope.type";
+import type { LogLevel } from "../types/log-level.type";
 
 /**
  * Container configuration interface

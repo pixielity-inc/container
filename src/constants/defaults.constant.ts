@@ -8,6 +8,6 @@
  * Default configuration values
  */
 export const DEFAULTS = {
-  LOG_LEVEL: 'info' as const,
-  SCOPE: 'Singleton' as const,
+  LOG_LEVEL: "info" as const,
+  SCOPE: "Singleton" as const,
 } as const;

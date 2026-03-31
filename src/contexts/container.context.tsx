@@ -8,8 +8,8 @@
  * @module contexts/container
  */
 
-import { createContext } from 'react';
-import type { Newable, ModuleContainer } from 'inversiland';
+import { createContext } from "react";
+import type { Newable, ModuleContainer } from "inversiland";
 
 /**
  * Container context value
@@ -29,4 +29,6 @@ export interface ContainerContextValue {
 /**
  * React context for module container
  */
-export const ContainerContext = createContext<ContainerContextValue | null>(null);
+export const ContainerContext = createContext<ContainerContextValue | null>(
+  null,
+);

@@ -7,11 +7,11 @@
  * @module hooks/use-inject
  */
 
-import { useMemo } from 'react';
-import { getModuleContainer } from 'inversiland';
-import type { Newable } from 'inversiland';
-import type { ServiceIdentifier } from '../../types';
-import { useContainer } from '../use-container';
+import { useMemo } from "react";
+import { getModuleContainer } from "inversiland";
+import type { Newable } from "inversiland";
+import type { ServiceIdentifier } from "../../types";
+import { useContainer } from "../use-container";
 
 /**
  * Inject a dependency from the module container
@@ -69,10 +69,15 @@ import { useContainer } from '../use-container';
  * }
  * ```
  */
-export function useInject<T>(serviceIdentifier: ServiceIdentifier<T>, moduleClass?: Newable): T {
+export function useInject<T>(
+  serviceIdentifier: ServiceIdentifier<T>,
+  moduleClass?: Newable,
+): T {
   console.log(
-    '[useInject] Called with serviceIdentifier:',
-    typeof serviceIdentifier === 'function' ? serviceIdentifier.name : serviceIdentifier
+    "[useInject] Called with serviceIdentifier:",
+    typeof serviceIdentifier === "function"
+      ? serviceIdentifier.name
+      : serviceIdentifier,
   );
 
   // Try to get context (will be null if outside ContainerProvider)
@@ -80,45 +85,56 @@ export function useInject<T>(serviceIdentifier: ServiceIdentifier<T>, moduleClas
   try {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     contextValue = useContainer();
-    console.log('[useInject] ✓ Got context from ContainerProvider');
+    console.log("[useInject] ✓ Got context from ContainerProvider");
   } catch (error) {
     // Context not available, will use moduleClass parameter
-    console.log('[useInject] No context available, will use moduleClass parameter');
+    console.log(
+      "[useInject] No context available, will use moduleClass parameter",
+    );
   }
 
   return useMemo(() => {
-    console.log('[useInject] useMemo executing...');
+    console.log("[useInject] useMemo executing...");
 
     // Use context if available, otherwise use provided moduleClass
     if (contextValue) {
-      console.log('[useInject] Using context container');
-      console.log('[useInject] Container ID:', contextValue.container.innerContainer.id);
+      console.log("[useInject] Using context container");
       console.log(
-        '[useInject] Attempting to get service:',
-        typeof serviceIdentifier === 'function' ? serviceIdentifier.name : serviceIdentifier
+        "[useInject] Container ID:",
+        contextValue.container.innerContainer.id,
+      );
+      console.log(
+        "[useInject] Attempting to get service:",
+        typeof serviceIdentifier === "function"
+          ? serviceIdentifier.name
+          : serviceIdentifier,
       );
       const service = contextValue.container.get(serviceIdentifier);
       console.log(
-        '[useInject] ✓ Service resolved:',
-        typeof service === 'object' && service !== null ? service.constructor.name : typeof service
+        "[useInject] ✓ Service resolved:",
+        typeof service === "object" && service !== null
+          ? service.constructor.name
+          : typeof service,
       );
       return service;
     }
 
     if (!moduleClass) {
-      console.error('[useInject] ERROR: No context and no moduleClass provided');
+      console.error(
+        "[useInject] ERROR: No context and no moduleClass provided",
+      );
       throw new Error(
-        'useInject: No module context found and no moduleClass provided. ' +
-          'Either wrap your component with <ContainerProvider module={YourModule}> ' +
-          'or provide the moduleClass parameter: useInject(Service, Module)'
+        "useInject: No module context found and no moduleClass provided. " +
+          "Either wrap your component with <ContainerProvider module={YourModule}> " +
+          "or provide the moduleClass parameter: useInject(Service, Module)",
       );
     }
 
-    console.log('[useInject] Using moduleClass:', moduleClass.name);
+    console.log("[useInject] Using moduleClass:", moduleClass.name);
     const moduleContainer = getModuleContainer(moduleClass);
-    console.log('[useInject] Got module container:', moduleContainer);
+    console.log("[useInject] Got module container:", moduleContainer);
     const service = moduleContainer.get(serviceIdentifier);
-    console.log('[useInject] ✓ Service resolved:', service);
+    console.log("[useInject] ✓ Service resolved:", service);
     return service;
   }, [serviceIdentifier, moduleClass, contextValue]);
 }

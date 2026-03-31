@@ -9,7 +9,7 @@
  * @category Decorators
  */
 
-import { METADATA_KEYS } from '@/constants';
+import { METADATA_KEYS } from "@/constants";
 
 /**
  * Global Module Decorator

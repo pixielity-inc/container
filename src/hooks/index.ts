@@ -10,6 +10,6 @@
 // ============================================================================
 // React Hooks
 // ============================================================================
-export { useInject } from './use-inject';
-export { useModule } from './use-module';
-export { useContainer } from './use-container';
+export { useInject } from "./use-inject";
+export { useModule } from "./use-module";
+export { useContainer } from "./use-container";

@@ -1,6 +1,6 @@
-import { Module } from '@abdokouta/react-di';
-import { LoggerService } from '@/services/logger.service';
-import { LifecycleService } from '@/services/lifecycle.service';
+import { Module, interfaces } from "@abdokouta/react-di";
+import { LoggerService } from "@/services/logger.service";
+import { LifecycleService } from "@/services/lifecycle.service";
 
 /**
  * Module demonstrating lifecycle hooks
@@ -13,11 +13,11 @@ import { LifecycleService } from '@/services/lifecycle.service';
     {
       provide: LifecycleService,
       useClass: LifecycleService,
-      scope: 'Singleton',
-      onActivation: async (context, instance) => {
+      scope: "Singleton",
+      onActivation: (context: interfaces.Context, instance) => {
         // Called after instance is created, before it's returned
         // Calls OnModuleInit.onModuleInit() if implemented
-        await instance.onModuleInit();
+        instance.onModuleInit();
         return instance;
       },
       onDeactivation: (instance) => {

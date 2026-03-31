@@ -8,7 +8,7 @@
  * @category Utils
  */
 
-import { METADATA_KEYS } from '@/constants';
+import { METADATA_KEYS } from "@/constants";
 
 /**
  * Check if a module is marked as global
@@ -123,7 +123,7 @@ export function isGlobalModule(target: any): boolean {
 export function makeProvidersGlobal(providers: any[]): any[] {
   return providers.map((provider) => {
     // Handle class providers (shorthand)
-    if (typeof provider === 'function') {
+    if (typeof provider === "function") {
       return {
         provide: provider,
         useClass: provider,
@@ -132,7 +132,7 @@ export function makeProvidersGlobal(providers: any[]): any[] {
     }
 
     // Handle object providers
-    if (typeof provider === 'object' && provider !== null) {
+    if (typeof provider === "object" && provider !== null) {
       return {
         ...provider,
         isGlobal: true,

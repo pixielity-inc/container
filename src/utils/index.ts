@@ -10,5 +10,5 @@
 // ============================================================================
 // Utility Functions
 // ============================================================================
-export { createModuleFactory } from './create-module-factory.util';
-export { forRoot, forFeature } from './module-helpers.util';
+export { createModuleFactory } from "./create-module-factory.util";
+export { forRoot, forFeature } from "./module-helpers.util";
