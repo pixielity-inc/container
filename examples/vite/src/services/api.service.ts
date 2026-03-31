@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
+import { LOGGER_SERVICE } from "@/constants";
 
-export const API_CONNECTION = Symbol("API_CONNECTION");
+export const API_CONNECTION = Symbol.for("API_CONNECTION");
 
 export interface ApiConnection {
   baseUrl: string;
@@ -14,7 +14,7 @@ export interface ApiConnection {
 export class ApiService {
   constructor(
     @Inject(API_CONNECTION) private connection: ApiConnection,
-    @Inject(LoggerService) private logger: LoggerService
+    @Inject(LOGGER_SERVICE) private logger: any
   ) {
     this.logger.info("ApiService initialized with connection");
   }

@@ -124,6 +124,152 @@
       },
       "disabled": true,
       "autoApprove": []
+    },
+    "inversiland": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@abdokouta/inversiland-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "explore_structure",
+        "read_file",
+        "search_files",
+        "get_packages",
+        "read_core_files"
+      ]
+    },
+    "refine": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@abdokouta/refine-mcp@latest"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "explore_structure",
+        "read_file",
+        "search_files",
+        "get_packages",
+        "read_core_files"
+      ]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "fetch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@executeautomation/playwright-mcp-server@latest"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "browserbase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@browserbasehq/mcp-server-browserbase@latest"
+      ],
+      "env": {
+        "BROWSERBASE_API_KEY": "",
+        "BROWSERBASE_PROJECT_ID": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "sentry": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sentry@latest"
+      ],
+      "env": {
+        "SENTRY_AUTH_TOKEN": "",
+        "SENTRY_ORG_SLUG": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cloudflare/mcp-server-cloudflare@latest"
+      ],
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "",
+        "CLOUDFLARE_ACCOUNT_ID": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "axiom": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@axiomhq/mcp-server-axiom@latest"
+      ],
+      "env": {
+        "AXIOM_API_TOKEN": "",
+        "AXIOM_DATASET": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "linear": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-linear@latest"
+      ],
+      "env": {
+        "LINEAR_API_KEY": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-slack@latest"
+      ],
+      "env": {
+        "SLACK_BOT_TOKEN": "",
+        "SLACK_TEAM_ID": ""
+      },
+      "disabled": true,
+      "autoApprove": []
+    },
+    "everart": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-everart@latest"
+      ],
+      "env": {
+        "EVERART_API_KEY": ""
+      },
+      "disabled": true,
+      "autoApprove": []
     }
   }
 }

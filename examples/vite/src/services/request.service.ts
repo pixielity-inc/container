@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
+
+import { LOGGER_SERVICE } from "@/constants";
 
 /**
  * Request-scoped service example
@@ -10,7 +11,7 @@ export class RequestService {
   private requestId: string;
   private startTime: number;
 
-  constructor(@Inject(LoggerService) private logger: LoggerService) {
+  constructor(@Inject(LOGGER_SERVICE) private logger: any) {
     this.requestId = Math.random().toString(36).substring(7);
     this.startTime = Date.now();
     this.logger.info(`RequestService created with ID: ${this.requestId}`);

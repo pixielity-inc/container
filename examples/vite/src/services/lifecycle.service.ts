@@ -1,5 +1,5 @@
 import { Injectable, Inject, type OnModuleInit, type OnModuleDestroy } from '@abdokouta/react-di';
-import { LoggerService } from './logger.service';
+import { LOGGER_SERVICE } from '@/constants';
 
 /**
  * Service with lifecycle hooks demonstration
@@ -14,7 +14,7 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
   private resources: string[] = [];
   private cleanupCallbacks: Array<() => void> = [];
 
-  constructor(@Inject(LoggerService) private logger: LoggerService) {
+  constructor(@Inject(LOGGER_SERVICE) private logger: any) {
     this.logger.info('LifecycleService constructor called');
   }
 

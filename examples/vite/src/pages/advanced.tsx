@@ -4,31 +4,39 @@ import { Card, Chip, Button, Separator } from "@heroui/react";
 
 import { ConfigService } from "@/services/config.service";
 import { ApiService } from "@/services/api.service";
-import { CacheService } from "@/services/cache.service";
 import { TransientService } from "@/services/transient.service";
 import { RequestService } from "@/services/request.service";
 import { LifecycleService } from "@/services/lifecycle.service";
 import { TestableService } from "@/services/testable.service";
+import { CacheService } from "@/services/cache.service";
 import DefaultLayout from "@/layouts/default";
 import { title } from "@/components/primitives";
+import {
+  CONFIG_SERVICE,
+  API_SERVICE,
+  TRANSIENT_SERVICE,
+  REQUEST_SERVICE,
+  LIFECYCLE_SERVICE,
+  TESTABLE_SERVICE,
+  CACHE_SERVICE,
+} from "@/constants";
 
 export default function AdvancedPage() {
   // Dynamic Module Patterns
-  const configService = useInject(ConfigService);
-  const apiService = useInject(ApiService);
+  const configService = useInject<ConfigService>(CONFIG_SERVICE);
+  const apiService = useInject<ApiService>(API_SERVICE);
 
   // Service Scopes
-  const transientService1 = useInject(TransientService);
-  const transientService2 = useInject(TransientService);
-  const requestService1 = useInject(RequestService);
-  const requestService2 = useInject(RequestService);
+  const transientService1 = useInject<TransientService>(TRANSIENT_SERVICE);
+  const transientService2 = useInject<TransientService>(TRANSIENT_SERVICE);
+  const requestService1 = useInject<RequestService>(REQUEST_SERVICE);
+  const requestService2 = useInject<RequestService>(REQUEST_SERVICE);
 
   // Lifecycle Management
-  const lifecycleService = useInject(LifecycleService);
+  const lifecycleService = useInject<LifecycleService>(LIFECYCLE_SERVICE);
 
   // Advanced Patterns
-  const cacheService = useInject(CacheService);
-  const testableService = useInject(TestableService);
+  const testableService = useInject<TestableService>(TESTABLE_SERVICE);
 
   // State Management
   const [apiStatus, setApiStatus] = useState(false);
@@ -52,8 +60,8 @@ export default function AdvancedPage() {
   useEffect(() => {
     setApiStatus(apiService.getConnectionStatus());
     setLifecycleStatus(lifecycleService.getStatus());
-    setCacheStats(cacheService.getStats());
-  }, [apiService, lifecycleService, cacheService]);
+    setCacheStats(testableService.getCacheStats());
+  }, [apiService, lifecycleService, testableService]);
 
   const config = configService.getAll();
 

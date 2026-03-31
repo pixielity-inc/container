@@ -1,36 +1,165 @@
 ---
-title: Pixielity Package Structure Guide
+title: Package Structure Guide - Monorepo with Turbo
 inclusion: auto
 ---
 
-# Pixielity Package Structure Guide
+# Package Structure Guide - Monorepo with Turbo
 
-This guide documents the standard package structure pattern used across all Pixielity packages. Follow this pattern when creating new packages to ensure consistency and maintainability.
+This guide documents the standard package structure pattern for monorepo projects using Turbo and pnpm workspaces. Follow this pattern when creating new packages to ensure consistency and maintainability.
 
-## 🎯 Package Types
+## 🏗️ Monorepo Structure
 
-### Production Packages (`packages/production/`)
-Core infrastructure packages that provide foundational functionality:
-- `@pixielity/support` - Base utilities, collections, registries
-- `@pixielity/container` - Dependency injection system
-- `@pixielity/logger` - Logging system with transporters and formatters
-- `@pixielity/cache` - Caching system with multiple drivers
-- `@pixielity/redis` - Redis connection management
-- `@pixielity/config` - Configuration management
-- `@pixielity/theming` - Theme system with design tokens
+This project uses a monorepo structure with:
+- **Turbo** - Build system orchestration and caching
+- **pnpm workspaces** - Package management and linking
+- **packages/** - Library packages (publishable to npm)
+- **examples/** - Example applications (not published)
 
-### Feature Packages (`packages/`)
-Feature-specific packages that build on production packages:
-- `@pixielity/auth` - Authentication system
-- `@pixielity/kbd` - Keyboard shortcuts
-- `@pixielity/multitenancy` - Multi-tenancy support
+## 🎯 Package Organization
+
+### Library Packages (`packages/`)
+Core library packages that can be published to npm:
+- `packages/container/` - Main DI container library (`@abdokouta/react-di`)
+- Future packages can be added here
+
+### Example Applications (`examples/`)
+Example applications demonstrating package usage (not published):
+- `examples/vite/` - Vite + React + HeroUI example
+- Future examples can be added here
+
+---
+
+## 📁 Root Monorepo Structure
+
+```
+.
+├── packages/                     # Library packages (publishable)
+│   └── container/                # @abdokouta/react-di package
+│       ├── src/                  # Source code
+│       ├── __tests__/            # Tests
+│       ├── dist/                 # Build output
+│       ├── package.json          # Package manifest
+│       ├── tsconfig.json         # TypeScript config
+│       ├── tsup.config.ts        # Build config
+│       └── vitest.config.ts      # Test config
+├── examples/                     # Example applications (not published)
+│   └── vite/                     # Vite example app
+│       ├── src/                  # App source
+│       ├── public/               # Static assets
+│       ├── package.json          # App dependencies
+│       └── vite.config.ts        # Vite config
+├── .docs/                        # Documentation
+├── .github/                      # GitHub workflows
+│   └── workflows/
+│       ├── ci.yml                # CI workflow
+│       └── publish.yml           # Publish workflow
+├── .kiro/                        # Kiro configuration
+│   └── steering/                 # Steering files
+├── node_modules/                 # Root dependencies
+├── package.json                  # Root workspace config
+├── pnpm-workspace.yaml           # pnpm workspace config
+├── turbo.json                    # Turbo configuration
+├── pnpm-lock.yaml                # pnpm lockfile
+├── .gitignore                    # Git ignore rules
+└── README.md                     # Project documentation
+```
+
+---
+
+## 📦 Workspace Configuration
+
+### Root package.json
+
+```json
+{
+  "name": "@abdokouta/react-di-monorepo",
+  "version": "1.0.4",
+  "private": true,
+  "description": "Dependency injection for React - NestJS-style modules powered by Inversiland",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "turbo": "^2.3.3"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}
+```
+
+**Key Points:**
+- Root package is `private: true` (not published)
+- Defines workspace patterns for packages and examples
+- Uses Turbo for task orchestration
+- Specifies package manager and Node.js version requirements
+
+### pnpm-workspace.yaml
+
+```yaml
+packages:
+  - 'packages/*'
+  - 'examples/*'
+```
+
+**Key Points:**
+- Defines workspace packages for pnpm
+- Matches the workspaces in package.json
+- Enables workspace protocol (`workspace:*`)
+
+### turbo.json
+
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}
+```
+
+**Key Points:**
+- `^build` means "build dependencies first"
+- `dev` is persistent (long-running)
+- `lint` and `test` depend on build
+- Outputs are cached for faster rebuilds
 
 ---
 
 ## 📁 Standard Package Structure
 
 ```
-packages/{category}/{package-name}/
+packages/{package-name}/
 ├── src/                          # Source code
 │   ├── components/               # React components (if applicable)
 │   │   └── {component-name}/
@@ -117,9 +246,9 @@ packages/{category}/{package-name}/
 
 ```json
 {
-  "name": "@pixielity/{package-name}",
+  "name": "@abdokouta/{package-name}",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "description": "Brief description of the package",
   "main": "./dist/index.js",
@@ -151,7 +280,6 @@ packages/{category}/{package-name}/
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
   },
   "peerDependencies": {
-    "@pixielity/container": "workspace:*",
     "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
@@ -164,7 +292,6 @@ packages/{category}/{package-name}/
     "@nesvel/prettier-config": "^1.0.3",
     "@nesvel/tsup-config": "^1.0.3",
     "@nesvel/typescript-config": "^1.0.4",
-    "@pixielity/container": "workspace:*",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@vitest/ui": "^4.1.2",
@@ -179,11 +306,12 @@ packages/{category}/{package-name}/
 ```
 
 **Key Points:**
-- Use `@pixielity/` scope for all packages
+- Use `@abdokouta/` scope for all packages
+- Set `"private": false` for publishable packages
 - Set `"type": "module"` for ESM support
 - Provide dual exports (ESM + CJS) via `exports` field
 - Mark `react` as optional peer dependency if package has React hooks/components
-- Use `workspace:*` for internal dependencies
+- For examples, use `workspace:*` for internal dependencies
 
 **Required Scripts:**
 - `build` - Build the package using tsup
@@ -280,6 +408,10 @@ export default defineConfig({
 - External peer dependencies
 - Proper file extensions (.mjs for ESM, .js for CJS)
 
+**Note for Monorepo:**
+- Packages can reference each other using `workspace:*` protocol
+- Examples reference packages using `workspace:*` in dependencies
+
 ### 4. vitest.config.ts
 
 ```typescript
@@ -337,9 +469,9 @@ coverage/
 ```
 
 **Important Notes:**
-- `package-lock.json` MUST be committed to the repository (do NOT add it to .gitignore)
-- `pnpm-lock.yaml` should NOT be in the repository if using npm
-- The lockfile is required for `npm ci` to work in CI/CD pipelines
+- `package-lock.json` or `pnpm-lock.yaml` MUST be committed to the repository (do NOT add to .gitignore)
+- The lockfile is required for `npm ci` or `pnpm install --frozen-lockfile` in CI/CD pipelines
+- For monorepo, only root lockfile is needed (`pnpm-lock.yaml` at root)
 
 ### 6. prettierrc.ts
 
@@ -361,9 +493,62 @@ export default '@nesvel/prettier-config';
 - Extends `@nesvel/prettier-config` for consistency across packages
 - Used by `format` and `format:check` scripts
 
-### 7. CI/CD Workflows (.github/workflows/)
+### 7. Monorepo Commands
 
-Every package MUST have these two GitHub Actions workflows:
+#### Root Level Commands (using Turbo)
+
+```bash
+# Build all packages
+pnpm build
+
+# Run dev mode for all packages
+pnpm dev
+
+# Run tests for all packages
+pnpm test
+
+# Lint all packages
+pnpm lint
+
+# Format all code
+pnpm format
+
+# Clean all build outputs
+pnpm clean
+```
+
+#### Package-Specific Commands
+
+```bash
+# Build specific package
+pnpm --filter @abdokouta/react-di build
+
+# Run dev mode for specific package
+pnpm --filter @abdokouta/react-di dev
+
+# Run example app
+pnpm --filter vite-template dev
+```
+
+#### Workspace Management
+
+```bash
+# Install dependencies for all workspaces
+pnpm install
+
+# Add dependency to specific package
+pnpm --filter @abdokouta/react-di add inversify
+
+# Add dev dependency to root
+pnpm add -D -w turbo
+
+# Link workspace packages
+# Automatically handled by pnpm with workspace:* protocol
+```
+
+### 8. CI/CD Workflows (.github/workflows/)
+
+Every package MUST have these two GitHub Actions workflows at the root level:
 
 #### ci.yml - Continuous Integration
 
@@ -375,7 +560,7 @@ Every package MUST have these two GitHub Actions workflows:
 # branches. Ensures code quality and prevents broken code from being merged.
 #
 # Jobs:
-# - test: Runs tests on Node.js 18 and 20
+# - test: Runs tests on Node.js 20
 # - lint: Checks code formatting with Prettier
 # =============================================================================
 
@@ -391,29 +576,32 @@ jobs:
   # ===========================================================================
   # Test Job
   # ===========================================================================
-  # Runs the test suite on multiple Node.js versions to ensure compatibility
+  # Runs the test suite using Turbo for caching
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18, 20]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '20'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Build package
-        run: npm run build
+      - name: Build packages
+        run: pnpm build
 
       - name: Run tests
-        run: npm run test
+        run: pnpm test
         continue-on-error: true
 
   # ===========================================================================
@@ -426,16 +614,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Check formatting
-        run: npm run format:check
+        run: pnpm format:check
         continue-on-error: true
 ```
 
@@ -445,7 +639,7 @@ jobs:
 # =============================================================================
 # Publish to npm Workflow
 # =============================================================================
-# Automatically publishes the package to npm when a version tag is pushed.
+# Automatically publishes packages to npm when a version tag is pushed.
 # Triggered by tags matching the pattern v* (e.g., v1.0.0, v1.2.3)
 #
 # Requirements:
@@ -454,9 +648,9 @@ jobs:
 #
 # Process:
 # 1. Checkout code
-# 2. Setup Node.js with npm registry
+# 2. Setup pnpm and Node.js
 # 3. Install dependencies
-# 4. Build package
+# 4. Build packages
 # 5. Publish to npm with public access
 # =============================================================================
 
@@ -472,7 +666,7 @@ jobs:
   # ===========================================================================
   # Publish Job
   # ===========================================================================
-  # Builds and publishes the package to npm registry
+  # Builds and publishes packages to npm registry
   publish:
     runs-on: ubuntu-latest
     permissions:
@@ -482,29 +676,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Build package
-        run: npm run build
+      - name: Build packages
+        run: pnpm build
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: |
+          cd packages/container
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 **Key Points:**
-- Use `npm ci` instead of `npm install` for reproducible builds
-- Use `npm run` for all script commands (not `pnpm run`)
-- Test on Node.js 18 and 20 for compatibility
-- Mark tests as `continue-on-error: true` if they're not critical
+- Use `pnpm install --frozen-lockfile` for reproducible builds
+- Use `pnpm` for all commands (not `npm`)
+- Setup pnpm before Node.js
+- Enable pnpm caching with `cache: 'pnpm'`
+- Publish from specific package directory
 - Publish workflow requires `NPM_TOKEN` secret in repository settings
 - Always use `--access public` for scoped packages
 

@@ -1,7 +1,5 @@
 import { Injectable, Inject } from '@abdokouta/react-di';
-import { LoggerService } from './logger.service';
-
-export const CACHE_CONFIG = Symbol('CACHE_CONFIG');
+import { CACHE_CONFIG, LOGGER_SERVICE } from '@/constants';
 
 export interface CacheConfig {
   maxSize: number;
@@ -19,7 +17,7 @@ export class CacheService {
 
   constructor(
     @Inject(CACHE_CONFIG) private config: CacheConfig,
-    @Inject(LoggerService) private logger: LoggerService
+    @Inject(LOGGER_SERVICE) private logger: any
   ) {
     this.logger.info(
       `CacheService initialized with maxSize: ${config.maxSize}, ttl: ${config.ttl}ms`

@@ -1,12 +1,12 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
+import { LOGGER_SERVICE } from "@/constants";
 
 @Injectable()
 export class CounterService {
   private count = 0;
   private listeners: Array<(count: number) => void> = [];
 
-  constructor(@Inject(LoggerService) private logger: LoggerService) {
+  constructor(@Inject(LOGGER_SERVICE) private logger: any) {
     this.logger.info("CounterService initialized");
   }
 

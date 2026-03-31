@@ -2,24 +2,25 @@ import { Module } from "@abdokouta/react-di";
 import { LoggerService } from "@/services/logger.service";
 import { RequestService } from "@/services/request.service";
 import { TransientService } from "@/services/transient.service";
+import { LOGGER_SERVICE, REQUEST_SERVICE, TRANSIENT_SERVICE } from "@/constants";
 
 /**
  * Module demonstrating different service scopes
  */
 @Module({
   providers: [
-    LoggerService, // Singleton by default
+    { provide: LOGGER_SERVICE, useClass: LoggerService }, // Singleton by default
     {
-      provide: RequestService,
+      provide: REQUEST_SERVICE,
       useClass: RequestService,
       scope: "Transient", // New instance per injection (simulating request scope)
     },
     {
-      provide: TransientService,
+      provide: TRANSIENT_SERVICE,
       useClass: TransientService,
       scope: "Transient", // New instance every time
     },
   ],
-  exports: [LoggerService, RequestService, TransientService],
+  exports: [LOGGER_SERVICE, REQUEST_SERVICE, TRANSIENT_SERVICE],
 })
 export class ScopeModule {}

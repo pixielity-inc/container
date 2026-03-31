@@ -1,15 +1,60 @@
-# @pixielity/react-di - Package Summary
+# @abdokouta/react-di - Package Summary
 
 ## 📦 Package Overview
 
 A production-ready dependency injection container for React applications with NestJS-style modules, built on top of Inversiland.
 
+This is a monorepo project using:
+- **Turbo** - Build system orchestration and caching
+- **pnpm workspaces** - Package management and linking
+- **packages/container** - Main library package
+- **examples/vite** - Example application
+
 ---
 
-## 📁 Package Structure
+## 📁 Monorepo Structure
 
 ```
-packages/!prod/container/
+.
+├── packages/
+│   └── container/               # @abdokouta/react-di package
+│       ├── src/
+│       │   ├── decorators/      # 9 decorators
+│       │   ├── hooks/           # 3 React hooks
+│       │   ├── providers/       # ContainerProvider
+│       │   ├── contexts/        # React context
+│       │   ├── types/           # Type definitions
+│       │   ├── interfaces/      # Interfaces
+│       │   ├── constants/       # Constants
+│       │   ├── utils/           # Utilities
+│       │   └── index.ts         # Main entry point
+│       ├── __tests__/           # Tests
+│       ├── dist/                # Build output
+│       ├── package.json
+│       ├── tsconfig.json
+│       ├── tsup.config.ts
+│       └── vitest.config.ts
+├── examples/
+│   └── vite/                    # Example application
+│       ├── src/
+│       │   ├── components/
+│       │   ├── modules/
+│       │   ├── services/
+│       │   ├── pages/
+│       │   └── main.tsx
+│       ├── package.json
+│       └── vite.config.ts
+├── .docs/                       # Documentation
+├── .github/workflows/           # CI/CD
+├── package.json                 # Root workspace config
+├── pnpm-workspace.yaml          # Workspace definition
+├── turbo.json                   # Turbo config
+└── pnpm-lock.yaml               # Lockfile
+```
+
+---
+
+## 📁 Package Structure (packages/container/)
 ├── src/
 │   ├── decorators/          # 9 decorators
 │   │   ├── module.decorator.ts

@@ -1,6 +1,5 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
-import { CacheService } from "./cache.service";
+import { LOGGER_SERVICE, CACHE_SERVICE } from "@/constants";
 
 /**
  * Example service designed for testability
@@ -9,8 +8,8 @@ import { CacheService } from "./cache.service";
 @Injectable()
 export class TestableService {
   constructor(
-    @Inject(LoggerService) private logger: LoggerService,
-    @Inject(CacheService) private cache: CacheService
+    @Inject(LOGGER_SERVICE) private logger: any,
+    @Inject(CACHE_SERVICE) private cache: any,
   ) {
     this.logger.info("TestableService initialized");
   }
@@ -19,11 +18,15 @@ export class TestableService {
    * Business logic that depends on injected services
    * Easy to test by mocking dependencies
    */
-  async fetchUserData(userId: string): Promise<{ id: string; name: string; cached: boolean }> {
+  async fetchUserData(
+    userId: string,
+  ): Promise<{ id: string; name: string; cached: boolean }> {
     this.logger.log(`Fetching user data for: ${userId}`);
 
     // Check cache first
-    const cached = this.cache.get<{ id: string; name: string }>(`user:${userId}`);
+    const cached = this.cache.get<{ id: string; name: string }>(
+      `user:${userId}`,
+    );
     if (cached) {
       this.logger.log(`Cache hit for user: ${userId}`);
       return { ...cached, cached: true };
@@ -47,7 +50,10 @@ export class TestableService {
   /**
    * Pure business logic - easy to test
    */
-  calculateDiscount(price: number, userLevel: "bronze" | "silver" | "gold"): number {
+  calculateDiscount(
+    price: number,
+    userLevel: "bronze" | "silver" | "gold",
+  ): number {
     const discounts = {
       bronze: 0.05,
       silver: 0.1,
@@ -64,8 +70,15 @@ export class TestableService {
   validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValid = emailRegex.test(email);
-    
+
     this.logger.log(`Email validation for ${email}: ${isValid}`);
     return isValid;
+  }
+
+  /**
+   * Get cache statistics
+   */
+  getCacheStats() {
+    return this.cache.getStats();
   }
 }

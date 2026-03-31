@@ -1,7 +1,6 @@
 import { Module, forRoot, type DynamicModule } from "@abdokouta/react-di";
 import { ConfigService, type AppConfig } from "@/services/config.service";
-
-export const CONFIG_OPTIONS = Symbol("CONFIG_OPTIONS");
+import { CONFIG_SERVICE, APP_CONFIG } from "@/constants";
 
 @Module({})
 export class ConfigModule {
@@ -13,18 +12,19 @@ export class ConfigModule {
     return forRoot(ConfigModule, {
       providers: [
         {
-          provide: CONFIG_OPTIONS,
+          provide: APP_CONFIG,
           useValue: config,
         },
         {
-          provide: ConfigService,
+          provide: CONFIG_SERVICE,
           useFactory: (context) => () => {
-            const options = context.container.get<AppConfig>(CONFIG_OPTIONS);
+            const options = context.container.get<AppConfig>(APP_CONFIG);
+
             return new ConfigService(options);
           },
         },
       ],
-      exports: [ConfigService],
+      exports: [CONFIG_SERVICE],
     });
   }
 }

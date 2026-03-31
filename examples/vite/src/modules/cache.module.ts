@@ -1,6 +1,7 @@
 import { Module, forFeature, type DynamicModule } from "@abdokouta/react-di";
-import { CacheService, CACHE_CONFIG, type CacheConfig } from "@/services/cache.service";
+import { CacheService, type CacheConfig } from "@/services/cache.service";
 import { LoggerService } from "@/services/logger.service";
+import { CACHE_SERVICE, CACHE_CONFIG, LOGGER_SERVICE } from "@/constants";
 
 @Module({})
 export class CacheModule {
@@ -11,14 +12,14 @@ export class CacheModule {
   static forFeature(config: CacheConfig): DynamicModule {
     return forFeature(CacheModule, {
       providers: [
-        LoggerService,
+        { provide: LOGGER_SERVICE, useClass: LoggerService },
         {
           provide: CACHE_CONFIG,
           useValue: config,
         },
-        CacheService,
+        { provide: CACHE_SERVICE, useClass: CacheService },
       ],
-      exports: [CacheService],
+      exports: [CACHE_SERVICE],
     });
   }
 }

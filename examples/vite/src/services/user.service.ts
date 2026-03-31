@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
+import { LOGGER_SERVICE } from "@/constants";
 
 export interface User {
   id: string;
@@ -11,13 +11,28 @@ export interface User {
 @Injectable()
 export class UserService {
   private users: User[] = [
-    { id: "1", name: "Alice Johnson", email: "alice@example.com", role: "Admin" },
+    {
+      id: "1",
+      name: "Alice Johnson",
+      email: "alice@example.com",
+      role: "Admin",
+    },
     { id: "2", name: "Bob Smith", email: "bob@example.com", role: "User" },
-    { id: "3", name: "Charlie Brown", email: "charlie@example.com", role: "User" },
-    { id: "4", name: "Diana Prince", email: "diana@example.com", role: "Moderator" },
+    {
+      id: "3",
+      name: "Charlie Brown",
+      email: "charlie@example.com",
+      role: "User",
+    },
+    {
+      id: "4",
+      name: "Diana Prince",
+      email: "diana@example.com",
+      role: "Moderator",
+    },
   ];
 
-  constructor(@Inject(LoggerService) private logger: LoggerService) {
+  constructor(@Inject(LOGGER_SERVICE) private logger: any) {
     this.logger.info("UserService initialized");
   }
 

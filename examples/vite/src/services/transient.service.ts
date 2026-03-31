@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@abdokouta/react-di";
-import { LoggerService } from "./logger.service";
+import { LOGGER_SERVICE } from "@/constants";
 
 /**
  * Transient-scoped service example
@@ -10,7 +10,7 @@ export class TransientService {
   private instanceId: string;
   private createdAt: number;
 
-  constructor(@Inject(LoggerService) private logger: LoggerService) {
+  constructor(@Inject(LOGGER_SERVICE) private logger: any) {
     this.instanceId = Math.random().toString(36).substring(7);
     this.createdAt = Date.now();
     this.logger.info(`TransientService instance created: ${this.instanceId}`);
