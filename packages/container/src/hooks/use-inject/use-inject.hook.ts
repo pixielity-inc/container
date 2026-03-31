@@ -83,7 +83,6 @@ export function useInject<T>(
   // Try to get context (will be null if outside ContainerProvider)
   let contextValue: ReturnType<typeof useContainer> | null = null;
   try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     contextValue = useContainer();
     console.log("[useInject] ✓ Got context from ContainerProvider");
   } catch (error) {

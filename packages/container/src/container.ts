@@ -140,7 +140,7 @@ export class Container {
   static build(): void {
     if (!this._module) {
       throw new Error(
-        "[Container] No module configured. Call .withModule(YourModule) before .build()"
+        "[Container] No module configured. Call .withModule(YourModule) before .build()",
       );
     }
 

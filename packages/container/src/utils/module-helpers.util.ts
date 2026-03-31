@@ -46,7 +46,7 @@ export function forRoot(
 
   // If module is global, providers are bound globally and don't need to be exported
   const isGlobal = isGlobalModule(moduleClass);
-  const exports = isGlobal ? [] : (metadata.exports || []);
+  const exports = isGlobal ? [] : metadata.exports || [];
 
   if (isGlobal) {
     console.log(
@@ -102,7 +102,7 @@ export function forFeature(
 
   // If module is global, providers are bound globally and don't need to be exported
   const isGlobal = isGlobalModule(moduleClass);
-  const exports = isGlobal ? [] : (metadata.exports || []);
+  const exports = isGlobal ? [] : metadata.exports || [];
 
   if (isGlobal) {
     console.log(

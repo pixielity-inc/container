@@ -105,7 +105,10 @@ export class UserService {
 
   getUsers() {
     this.logger.log("Fetching users...");
-    return [{ id: 1, name: "John" }, { id: 2, name: "Jane" }];
+    return [
+      { id: 1, name: "John" },
+      { id: 2, name: "Jane" },
+    ];
   }
 }
 ```
@@ -119,10 +122,7 @@ import { LoggerService } from "../services/logger.service";
 import { UserService, USER_SERVICE } from "../services/user.service";
 
 @Module({
-  providers: [
-    LoggerService,
-    { provide: USER_SERVICE, useClass: UserService },
-  ],
+  providers: [LoggerService, { provide: USER_SERVICE, useClass: UserService }],
 })
 export class AppModule {}
 ```
@@ -156,16 +156,14 @@ The `Container` class provides a fluent builder API for initialization:
 import { Container } from "@abdokouta/react-di";
 
 // Full configuration
-Container
-  .configure()
+Container.configure()
   .withModule(AppModule)
-  .withLogLevel("debug")        // "none" | "info" | "debug"
+  .withLogLevel("debug") // "none" | "info" | "debug"
   .withDefaultScope("Singleton") // "Singleton" | "Transient" | "Request"
   .build();
 
 // With config object
-Container
-  .configure()
+Container.configure()
   .withModule(AppModule)
   .withConfig({
     logLevel: "debug",
@@ -174,18 +172,10 @@ Container
   .build();
 
 // With defaults (logLevel: "info", defaultScope: "Singleton")
-Container
-  .configure()
-  .withModule(AppModule)
-  .withDefaults()
-  .build();
+Container.configure().withModule(AppModule).withDefaults().build();
 
 // Development defaults (logLevel: "debug")
-Container
-  .configure()
-  .withModule(AppModule)
-  .withDevDefaults()
-  .build();
+Container.configure().withModule(AppModule).withDevDefaults().build();
 ```
 
 ## 🌍 Global Modules
@@ -221,10 +211,7 @@ export const CONFIG = Symbol.for("Config");
 export class ConfigModule {
   static forRoot(config: AppConfig): DynamicModule {
     return forRoot(ConfigModule, {
-      providers: [
-        { provide: CONFIG, useValue: config },
-        ConfigService,
-      ],
+      providers: [{ provide: CONFIG, useValue: config }, ConfigService],
       exports: [ConfigService],
     });
   }
@@ -245,6 +232,7 @@ export class AppModule {}
 ## 📋 Provider Types
 
 ### Class Provider
+
 ```typescript
 { provide: UserService, useClass: UserService }
 // or simply
@@ -252,11 +240,13 @@ UserService
 ```
 
 ### Value Provider
+
 ```typescript
 { provide: API_URL, useValue: "https://api.example.com" }
 ```
 
 ### Factory Provider
+
 ```typescript
 {
   provide: CONNECTION,
@@ -265,6 +255,7 @@ UserService
 ```
 
 ### Async Factory Provider
+
 ```typescript
 {
   provide: DATABASE,
@@ -275,6 +266,7 @@ UserService
 ```
 
 ### Alias Provider
+
 ```typescript
 { provide: "Logger", useExisting: LoggerService }
 ```
@@ -282,34 +274,38 @@ UserService
 ## 🎣 React Hooks
 
 ### useInject
+
 ```typescript
 const service = useInject<UserService>(USER_SERVICE);
 ```
 
 ### useContainer
+
 ```typescript
 const { container, moduleClass } = useContainer();
 ```
 
 ### useModule
+
 ```typescript
 const container = useModule(AppModule);
 ```
 
 ## 🔧 Decorators
 
-| Decorator | Description |
-|-----------|-------------|
-| `@Module()` | Define a module with providers, imports, exports |
-| `@Global()` | Make module's providers globally available |
-| `@Injectable()` | Mark a class as injectable |
-| `@Inject(token)` | Inject a dependency |
-| `@MultiInject(token)` | Inject all providers with the same token |
-| `@Optional()` | Mark dependency as optional |
+| Decorator             | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| `@Module()`           | Define a module with providers, imports, exports |
+| `@Global()`           | Make module's providers globally available       |
+| `@Injectable()`       | Mark a class as injectable                       |
+| `@Inject(token)`      | Inject a dependency                              |
+| `@MultiInject(token)` | Inject all providers with the same token         |
+| `@Optional()`         | Mark dependency as optional                      |
 
 ## ⚙️ Configuration
 
 ### tsconfig.json
+
 ```json
 {
   "compilerOptions": {
@@ -321,6 +317,7 @@ const container = useModule(AppModule);
 ```
 
 ### Vite Configuration
+
 ```typescript
 // vite.config.ts
 import { defineConfig } from "vite";
