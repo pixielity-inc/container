@@ -147,8 +147,16 @@ export { ContainerProvider } from "./providers";
 // ============================================================================
 // Utilities
 // ============================================================================
-export { createModuleFactory, forRoot, forFeature } from "./utils";
-export { initContainer, type InitContainerOptions } from "./utils/init-container.util";
+export {
+  defineConfig,
+  createModuleFactory,
+  forRoot,
+  forFeature,
+} from "./utils";
+export {
+  initContainer,
+  type InitContainerOptions,
+} from "./utils/init-container.util";
 
 // ============================================================================
 // Builders
