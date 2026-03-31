@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@abdokouta/react-di": "^1.0.3",
+    "@abdokouta/react-di": "^1.0.4",
     "@heroui/react": "3.0.1",
     "@heroui/styles": "3.0.1",
     "clsx": "2.1.1",
