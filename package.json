@@ -1,6 +1,6 @@
 {
   "name": "@abdokouta/react-di",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Dependency injection for React - NestJS-style modules powered by Inversiland",
   "keywords": [
     "react",
