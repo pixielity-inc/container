@@ -17,6 +17,7 @@ interface OnModuleInit {
 ```
 
 **When to use:**
+
 - Initialize resources (database connections, file handles)
 - Load configuration
 - Set up event listeners
@@ -24,8 +25,9 @@ interface OnModuleInit {
 - Validate service state
 
 **Example:**
+
 ```typescript
-import { Injectable, Inject, OnModuleInit } from '@abdokouta/react-di';
+import { Injectable, Inject, OnModuleInit } from "@abdokouta/react-di";
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
@@ -34,14 +36,14 @@ export class DatabaseService implements OnModuleInit {
   constructor(@Inject(ConfigService) private config: ConfigService) {}
 
   async onModuleInit(): Promise<void> {
-    console.log('Initializing database connection...');
+    console.log("Initializing database connection...");
     this.connection = await createConnection(this.config.getDatabaseUrl());
-    console.log('Database connected');
+    console.log("Database connected");
   }
 
   query(sql: string) {
     if (!this.connection) {
-      throw new Error('Database not connected');
+      throw new Error("Database not connected");
     }
     return this.connection.query(sql);
   }
@@ -59,6 +61,7 @@ interface OnModuleDestroy {
 ```
 
 **When to use:**
+
 - Close database connections
 - Clean up file handles
 - Remove event listeners
@@ -66,20 +69,21 @@ interface OnModuleDestroy {
 - Release resources
 
 **Example:**
+
 ```typescript
-import { Injectable, OnModuleDestroy } from '@abdokouta/react-di';
+import { Injectable, OnModuleDestroy } from "@abdokouta/react-di";
 
 @Injectable()
 export class DatabaseService implements OnModuleDestroy {
   private connection: any = null;
 
   async onModuleDestroy(): Promise<void> {
-    console.log('Closing database connection...');
+    console.log("Closing database connection...");
     if (this.connection) {
       await this.connection.close();
       this.connection = null;
     }
-    console.log('Database disconnected');
+    console.log("Database disconnected");
   }
 }
 ```
@@ -89,14 +93,18 @@ export class DatabaseService implements OnModuleDestroy {
 To enable lifecycle hooks, configure the provider with `onActivation` and `onDeactivation`:
 
 ```typescript
-import { Module, hasOnModuleInit, hasOnModuleDestroy } from '@abdokouta/react-di';
+import {
+  Module,
+  hasOnModuleInit,
+  hasOnModuleDestroy,
+} from "@abdokouta/react-di";
 
 @Module({
   providers: [
     {
       provide: DatabaseService,
       useClass: DatabaseService,
-      scope: 'Singleton',
+      scope: "Singleton",
       onActivation: async (context, instance) => {
         // Call OnModuleInit if implemented
         if (hasOnModuleInit(instance)) {
@@ -119,7 +127,12 @@ export class DatabaseModule {}
 ## Complete Example
 
 ```typescript
-import { Injectable, Inject, OnModuleInit, OnModuleDestroy } from '@abdokouta/react-di';
+import {
+  Injectable,
+  Inject,
+  OnModuleInit,
+  OnModuleDestroy,
+} from "@abdokouta/react-di";
 
 @Injectable()
 export class CacheService implements OnModuleInit, OnModuleDestroy {
@@ -129,19 +142,19 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
   constructor(@Inject(LoggerService) private logger: LoggerService) {}
 
   async onModuleInit(): Promise<void> {
-    this.logger.info('CacheService initializing...');
-    
+    this.logger.info("CacheService initializing...");
+
     // Set up periodic cleanup
     this.cleanupInterval = setInterval(() => {
       this.cleanup();
     }, 60000); // Every minute
 
-    this.logger.info('CacheService initialized');
+    this.logger.info("CacheService initialized");
   }
 
   onModuleDestroy(): void {
-    this.logger.info('CacheService destroying...');
-    
+    this.logger.info("CacheService destroying...");
+
     // Clear interval
     if (this.cleanupInterval) {
       clearInterval(this.cleanupInterval);
@@ -150,7 +163,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
     // Clear cache
     this.cache.clear();
 
-    this.logger.info('CacheService destroyed');
+    this.logger.info("CacheService destroyed");
   }
 
   set(key: string, value: any): void {
@@ -163,7 +176,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
 
   private cleanup(): void {
     // Cleanup logic
-    this.logger.log('Running cache cleanup...');
+    this.logger.log("Running cache cleanup...");
   }
 }
 ```
@@ -173,7 +186,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
 The package provides type guard functions to check if an object implements the lifecycle interfaces:
 
 ```typescript
-import { hasOnModuleInit, hasOnModuleDestroy } from '@abdokouta/react-di';
+import { hasOnModuleInit, hasOnModuleDestroy } from "@abdokouta/react-di";
 
 const service = new MyService();
 
@@ -278,6 +291,7 @@ class ServiceA implements OnModuleInit {
 ## Comparison with NestJS
 
 ### NestJS
+
 ```typescript
 @Injectable()
 export class MyService implements OnModuleInit, OnModuleDestroy {
@@ -292,6 +306,7 @@ export class MyService implements OnModuleInit, OnModuleDestroy {
 ```
 
 ### @abdokouta/react-di
+
 ```typescript
 @Injectable()
 export class MyService implements OnModuleInit, OnModuleDestroy {
@@ -362,18 +377,18 @@ import { useEffect } from 'react';
 function MyComponent() {
   // Service is already initialized via onModuleInit
   const service = useInject(MyService);
-  
+
   useEffect(() => {
     // Service is ready to use
     service.doWork();
-    
+
     // Component cleanup (not service cleanup)
     return () => {
       // Don't call service.onModuleDestroy() here
       // That's handled by the DI container
     };
   }, [service]);
-  
+
   return <div>{service.getData()}</div>;
 }
 ```
@@ -390,6 +405,7 @@ function MyComponent() {
 ---
 
 **See Also:**
+
 - [Lifecycle Hooks Documentation](./LIFECYCLE_HOOKS.md)
 - [Inversiland Documentation](https://github.com/carlossalasamper/inversiland)
 - [NestJS Lifecycle Events](https://docs.nestjs.com/fundamentals/lifecycle-events)

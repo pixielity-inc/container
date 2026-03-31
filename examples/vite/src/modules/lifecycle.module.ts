@@ -1,7 +1,6 @@
 import { Module, interfaces } from "@abdokouta/react-di";
-import { LoggerService } from "@/services/logger.service";
 import { LifecycleService } from "@/services/lifecycle.service";
-import { LOGGER_SERVICE, LIFECYCLE_SERVICE } from "@/constants";
+import { LIFECYCLE_SERVICE } from "@/constants";
 
 /**
  * Module demonstrating lifecycle hooks
@@ -10,7 +9,6 @@ import { LOGGER_SERVICE, LIFECYCLE_SERVICE } from "@/constants";
  */
 @Module({
   providers: [
-    { provide: LOGGER_SERVICE, useClass: LoggerService },
     {
       provide: LIFECYCLE_SERVICE,
       useClass: LifecycleService,

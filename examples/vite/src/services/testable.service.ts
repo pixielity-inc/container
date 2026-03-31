@@ -11,6 +11,9 @@ export class TestableService {
     @Inject(LOGGER_SERVICE) private logger: any,
     @Inject(CACHE_SERVICE) private cache: any,
   ) {
+    console.log(`[TestableService] Constructor called`);
+    console.log(`[TestableService] Logger injected:`, !!this.logger);
+    console.log(`[TestableService] CacheService injected:`, !!this.cache);
     this.logger.info("TestableService initialized");
   }
 

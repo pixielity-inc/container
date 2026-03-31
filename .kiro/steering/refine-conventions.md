@@ -8,45 +8,59 @@ inclusion: auto
 ## 🚨 Critical Rules - MUST FOLLOW
 
 ### 1. File and Folder Naming
+
 **ALL file and folder names MUST use lowercase kebab-case**
+
 - ✅ `use-tenant.hook.ts`, `create-button.component.tsx`, `tenant-config.interface.ts`
 - ❌ `useTenant.hook.ts`, `CreateButton.component.tsx`, `use_tenant.hook.ts`, `TenantConfig.interface.ts`
 
 ### 2. Export Interfaces
+
 **Export interfaces MUST live in `interfaces/` folder**
+
 - One `.interface.ts` file per export interface
 - File name: lowercase kebab-case with `.interface.ts` suffix
 - Example: `interfaces/tenant-config.interface.ts`
 - Example: `interfaces/multi-tenancy-provider.interface.ts`
 
 ### 3. Export Types
+
 **Export types MUST live in `types/` folder**
+
 - One `.type.ts` file per export type
 - File name: lowercase kebab-case with `.type.ts` suffix
 - Example: `types/tenant-mode.type.ts`
 - Example: `types/tenant-response.type.ts`
 
 ### 4. Export Enums
+
 **Export enums MUST live in `enums/` folder**
+
 - One `.enum.ts` file per export enum
 - File name: lowercase kebab-case with `.enum.ts` suffix
 - Example: `enums/tenant-status.enum.ts`
 - Example: `enums/tenant-mode.enum.ts`
 
 ### 5. Test Files
+
 **Test files use `.test.ts` or `.test.tsx` extension**
+
 - NOT `.spec.ts` or `.spec.tsx`
 - Example: `use-tenant.hook.test.ts`
 - Example: `create-button.component.test.tsx`
 
 ### 6. Index Files
+
 **Every folder with multiple files MUST have an `index.ts` (or `index.tsx`)**
+
 - Re-exports the public API
 - Example: `hooks/use-tenant/index.ts`
 - Example: `components/create-button/index.tsx`
 
 ### 7. Documentation Files
+
 **DO NOT create .md or documentation files unless explicitly requested**
+
 - No summary files, no documentation files, no README files
 - Only create when user explicitly asks for documentation
 
@@ -55,6 +69,7 @@ inclusion: auto
 ## File Naming Conventions
 
 ### General Rules
+
 - **ALL file and folder names MUST use lowercase kebab-case**
 - Files have appropriate suffixes based on their content type
 - Each file should have a single responsibility
@@ -63,12 +78,14 @@ inclusion: auto
 ### File Suffixes
 
 #### Hooks
+
 - Pattern: `use-{name}/use-{name}.hook.ts`
 - Example: `use-tenant/use-tenant.hook.ts`
 - Index file: `use-tenant/index.ts` (re-exports the hook)
 - Test file: `use-tenant/use-tenant.hook.test.ts`
 
 #### Interfaces
+
 - Pattern: `interfaces/{name}.interface.ts`
 - Example: `interfaces/multi-tenancy-provider.interface.ts`
 - **CRITICAL:** One interface per file
@@ -76,6 +93,7 @@ inclusion: auto
 - Must live in `interfaces/` folder
 
 #### Types
+
 - Pattern: `types/{name}.type.ts`
 - Example: `types/tenant.type.ts`
 - **CRITICAL:** One type per file
@@ -83,6 +101,7 @@ inclusion: auto
 - Must live in `types/` folder
 
 #### Enums
+
 - Pattern: `enums/{name}.enum.ts`
 - Example: `enums/tenant-mode.enum.ts`
 - **CRITICAL:** One enum per file
@@ -90,6 +109,7 @@ inclusion: auto
 - Must live in `enums/` folder
 
 #### Components
+
 - Pattern: `{component-name}/{component-name}.component.tsx`
 - Example: `with-tenant/with-tenant.component.tsx`
 - Example: `auto-save-indicator/auto-save-indicator.component.tsx`
@@ -102,27 +122,32 @@ inclusion: auto
   - Export: `export const AutoSaveIndicator = () => { ... }`
 
 #### Contexts
+
 - Pattern: `{context-name}/{context-name}.context.tsx`
 - Example: `multi-tenancy/multi-tenancy.context.tsx`
 - Index file: `multi-tenancy/index.tsx` (re-exports context and provider)
 - Test file: `multi-tenancy/multi-tenancy.context.test.tsx`
 
 #### Utilities
+
 - Pattern: `utils/{util-name}.util.ts`
 - Example: `utils/parse-subdomain.util.ts`
 - Test file: `utils/parse-subdomain.util.test.ts`
 
 #### Helpers
+
 - Pattern: `helpers/{helper-name}.helper.ts`
 - Example: `helpers/format-tenant-name.helper.ts`
 - Test file: `helpers/format-tenant-name.helper.test.ts`
 
 #### Services
+
 - Pattern: `services/{service-name}.service.ts`
 - Example: `services/tenant-api.service.ts`
 - Test file: `services/tenant-api.service.test.ts`
 
 #### Providers
+
 - Pattern: `providers/{provider-name}.provider.tsx`
 - Example: `providers/notification-provider.provider.tsx`
 - Test file: `providers/notification-provider.provider.test.tsx`
@@ -130,16 +155,19 @@ inclusion: auto
 - Function/const exports use camelCase: `notificationProvider`, `useNotificationProvider`
 
 #### Constants
+
 - Pattern: `constants/{name}.constant.ts`
 - Example: `constants/default-tenant-config.constant.ts`
 
 #### Resolvers (for multi-tenancy)
+
 - Pattern: `resolvers/{resolver-name}.resolver.ts`
 - Example: `resolvers/subdomain.resolver.ts`
 - Each resolver is responsible for resolving tenant from a specific source
 - Test file: `resolvers/subdomain.resolver.test.ts`
 
 #### Configurations
+
 - Pattern: `configs/{name}.config.ts`
 - Example: `configs/tenant.config.ts`
 - JSON configs: `configs/{name}.config.json`
@@ -147,6 +175,7 @@ inclusion: auto
 ## Directory Structure
 
 ### Standard Package Structure
+
 ```
 packages/{package-name}/
 ├── src/
@@ -211,50 +240,59 @@ packages/{package-name}/
 ## Export Patterns
 
 ### Index Files
+
 Each directory should have an `index.ts` that re-exports its contents:
 
 ```typescript
 // hooks/use-tenant/index.ts
-export { useTenant } from './use-tenant';
-export type { UseTenantReturn } from './use-tenant';
+export { useTenant } from "./use-tenant";
+export type { UseTenantReturn } from "./use-tenant";
 ```
 
 ### Barrel Exports
+
 Top-level directories should have barrel exports:
 
 ```typescript
 // interfaces/index.ts
-export type { MultiTenancyProvider } from './multi-tenancy-provider.interface';
-export type { TenantResolver } from './tenant-resolver.interface';
-export type { TenantConfig } from './tenant-config.interface';
+export type { MultiTenancyProvider } from "./multi-tenancy-provider.interface";
+export type { TenantResolver } from "./tenant-resolver.interface";
+export type { TenantConfig } from "./tenant-config.interface";
 ```
 
 ## Naming Conventions
 
 ### Variables and Functions
+
 - Use camelCase: `getTenantId`, `currentTenant`
 
 ### Interfaces
+
 - Use PascalCase: `MultiTenancyProvider`, `TenantResolver`
 - Prefix with `I` only for context interfaces: `IMultiTenancyContext`
 
 ### Types
+
 - Use PascalCase: `Tenant`, `TenantResponse`
 
 ### Enums
+
 - Use PascalCase for enum name: `TenantMode`
 - Use UPPER_SNAKE_CASE for enum values: `FILTER`, `HEADER`
 
 ### Constants
+
 - Use UPPER_SNAKE_CASE: `DEFAULT_TENANT_FIELD`, `MAX_TENANTS`
 
 ### Components
+
 - Use PascalCase: `WithTenant`, `TenantSelect`
 - Layout components: Use simple names without "Themed" prefix
   - ✅ `Header`, `Sider`, `Layout`, `Title`
   - ❌ `ThemedHeader`, `ThemedSider`, `ThemedLayout`
 
 ### Providers
+
 - Component providers use PascalCase: `ThemeProvider`, `NotificationProvider`
 - Function/const providers use camelCase: `themeProvider`, `notificationProvider`
 - When passing to Refine, use camelCase:
@@ -268,6 +306,7 @@ export type { TenantConfig } from './tenant-config.interface';
 ## Examples
 
 ### Hook Structure
+
 ```
 hooks/
 └── use-tenant/
@@ -278,6 +317,7 @@ hooks/
 ```
 
 ### Component Structure
+
 ```
 components/
 ├── create-button/
@@ -293,6 +333,7 @@ components/
 ```
 
 ### Interface Structure
+
 ```
 interfaces/
 ├── multi-tenancy-provider.interface.ts
@@ -302,6 +343,7 @@ interfaces/
 ```
 
 ### Type Structure
+
 ```
 types/
 ├── tenant.type.ts
@@ -311,6 +353,7 @@ types/
 ```
 
 ### Enum Structure
+
 ```
 enums/
 ├── tenant-mode.enum.ts
@@ -319,6 +362,7 @@ enums/
 ```
 
 ### Resolver Structure
+
 ```
 resolvers/
 ├── subdomain.resolver.ts
@@ -331,6 +375,7 @@ resolvers/
 ```
 
 ### Provider Structure
+
 ```
 providers/
 └── notification-provider/
@@ -341,19 +386,31 @@ providers/
 ```
 
 **Example exports:**
+
 ```typescript
 // notification-provider.provider.tsx
-export const NotificationProvider: React.FC = () => { /* ... */ };
-export const notificationProvider = { /* ... */ };
-export const useNotificationProvider = () => { /* ... */ };
+export const NotificationProvider: React.FC = () => {
+  /* ... */
+};
+export const notificationProvider = {
+  /* ... */
+};
+export const useNotificationProvider = () => {
+  /* ... */
+};
 
 // index.tsx
-export { NotificationProvider, notificationProvider, useNotificationProvider } from './notification-provider.provider';
+export {
+  NotificationProvider,
+  notificationProvider,
+  useNotificationProvider,
+} from "./notification-provider.provider";
 ```
 
 ## Multi-Tenancy Specific Patterns
 
 ### Resolver Pattern
+
 Inspired by nestjs-i18n, each resolver is responsible for resolving tenant from a specific source:
 
 ```typescript
@@ -366,6 +423,7 @@ export class SubdomainResolver implements TenantResolver {
 ```
 
 ### Configuration Pattern
+
 Use JSON configs for tenant configuration:
 
 ```json
@@ -384,22 +442,24 @@ Use JSON configs for tenant configuration:
 ## Testing Conventions
 
 ### Test Files
+
 - Pattern: `{name}.test.ts` or `{name}.test.tsx` (NOT `.spec.ts`)
 - Located alongside the file being tested
 - Example: `use-tenant.hook.ts` → `use-tenant.hook.test.ts`
 - Example: `create-button.component.tsx` → `create-button.component.test.tsx`
 
 ### Test Structure
+
 ```typescript
-describe('useTenant', () => {
-  describe('when tenant is loaded', () => {
-    it('should return current tenant', () => {
+describe("useTenant", () => {
+  describe("when tenant is loaded", () => {
+    it("should return current tenant", () => {
       // test
     });
   });
 
-  describe('when tenant is not loaded', () => {
-    it('should return undefined', () => {
+  describe("when tenant is not loaded", () => {
+    it("should return undefined", () => {
       // test
     });
   });
@@ -409,11 +469,12 @@ describe('useTenant', () => {
 ## Documentation Conventions
 
 ### JSDoc Comments
+
 - All exported functions, interfaces, types should have JSDoc comments
 - Include `@example` for complex APIs
 - Include `@param` and `@returns` for functions
 
-```typescript
+````typescript
 /**
  * Hook to access current tenant information
  *
@@ -428,4 +489,4 @@ describe('useTenant', () => {
 export const useTenant = () => {
   // implementation
 };
-```
+````

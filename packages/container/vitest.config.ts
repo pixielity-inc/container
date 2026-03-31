@@ -1,16 +1,16 @@
 /**
  * @fileoverview Vitest configuration for @pixielity/react-di package
- * 
+ *
  * This configuration sets up the testing environment for the container package,
  * including test globals, jsdom environment, coverage reporting, and path aliases.
- * 
+ *
  * Configuration Features:
  * - Globals: Enables global test functions (describe, it, expect)
  * - Environment: Uses jsdom for React component testing
  * - Setup Files: Runs vitest.setup.ts before tests
  * - Coverage: Configures v8 coverage provider with HTML/JSON/text reports
  * - Path Aliases: Resolves @ to ./src for consistent imports
- * 
+ *
  * @module @pixielity/react-di
  * @category Configuration
  */
@@ -26,24 +26,24 @@ export default defineConfig({
   test: {
     // Enable global test functions (describe, it, expect, etc.)
     globals: true,
-    
+
     // Use jsdom environment for React testing
     environment: "jsdom",
-    
+
     // Run setup file before tests
     setupFiles: ["./__tests__/vitest.setup.ts"],
-    
+
     // Only include __tests__ directory
     include: ["__tests__/**/*.{test,spec}.{ts,tsx}"],
-    
+
     // Coverage configuration
     coverage: {
       // Use v8 coverage provider (faster than istanbul)
       provider: "v8",
-      
+
       // Generate multiple report formats
       reporter: ["text", "json", "html"],
-      
+
       // Exclude files from coverage
       exclude: [
         "node_modules/",
@@ -55,7 +55,7 @@ export default defineConfig({
       ],
     },
   },
-  
+
   // Resolve path aliases
   resolve: {
     alias: {

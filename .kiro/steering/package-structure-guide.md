@@ -10,6 +10,7 @@ This guide documents the standard package structure pattern for monorepo project
 ## 🏗️ Monorepo Structure
 
 This project uses a monorepo structure with:
+
 - **Turbo** - Build system orchestration and caching
 - **pnpm workspaces** - Package management and linking
 - **packages/** - Library packages (publishable to npm)
@@ -18,12 +19,16 @@ This project uses a monorepo structure with:
 ## 🎯 Package Organization
 
 ### Library Packages (`packages/`)
+
 Core library packages that can be published to npm:
+
 - `packages/container/` - Main DI container library (`@abdokouta/react-di`)
 - Future packages can be added here
 
 ### Example Applications (`examples/`)
+
 Example applications demonstrating package usage (not published):
+
 - `examples/vite/` - Vite + React + HeroUI example
 - Future examples can be added here
 
@@ -76,10 +81,7 @@ Example applications demonstrating package usage (not published):
   "version": "1.0.4",
   "private": true,
   "description": "Dependency injection for React - NestJS-style modules powered by Inversiland",
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
+  "workspaces": ["packages/*", "examples/*"],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -102,6 +104,7 @@ Example applications demonstrating package usage (not published):
 ```
 
 **Key Points:**
+
 - Root package is `private: true` (not published)
 - Defines workspace patterns for packages and examples
 - Uses Turbo for task orchestration
@@ -111,11 +114,12 @@ Example applications demonstrating package usage (not published):
 
 ```yaml
 packages:
-  - 'packages/*'
-  - 'examples/*'
+  - "packages/*"
+  - "examples/*"
 ```
 
 **Key Points:**
+
 - Defines workspace packages for pnpm
 - Matches the workspaces in package.json
 - Enables workspace protocol (`workspace:*`)
@@ -149,6 +153,7 @@ packages:
 ```
 
 **Key Points:**
+
 - `^build` means "build dependencies first"
 - `dev` is persistent (long-running)
 - `lint` and `test` depend on build
@@ -261,10 +266,7 @@ packages/{package-name}/
       "require": "./dist/index.js"
     }
   },
-  "files": [
-    "dist",
-    "config"
-  ],
+  "files": ["dist", "config"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -306,6 +308,7 @@ packages/{package-name}/
 ```
 
 **Key Points:**
+
 - Use `@abdokouta/` scope for all packages
 - Set `"private": false` for publishable packages
 - Set `"type": "module"` for ESM support
@@ -314,6 +317,7 @@ packages/{package-name}/
 - For examples, use `workspace:*` for internal dependencies
 
 **Required Scripts:**
+
 - `build` - Build the package using tsup
 - `dev` - Watch mode for development
 - `test` - Run tests once (for CI)
@@ -326,6 +330,7 @@ packages/{package-name}/
 - `clean` - Remove build artifacts
 
 **Required devDependencies:**
+
 - `@nesvel/prettier-config` - Prettier configuration
 - `@nesvel/typescript-config` - TypeScript configuration
 - `@nesvel/tsup-config` - Build configuration (optional)
@@ -345,25 +350,25 @@ packages/{package-name}/
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".",
-    
+
     /* Module resolution - Override Nesvel's NodeNext for compatibility */
     "module": "ESNext",
     "moduleResolution": "bundler",
-    
+
     /* Decorators - Required for DI container */
     "experimentalDecorators": true,
-    
+
     /* Build options */
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    
+
     /* Path aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    
+
     /* Testing */
     "types": ["vitest/globals"]
   },
@@ -373,6 +378,7 @@ packages/{package-name}/
 ```
 
 **Key Points:**
+
 - Extend Nesvel's base TypeScript config
 - Enable `experimentalDecorators` for DI support
 - Use `@/*` path alias for clean imports
@@ -381,27 +387,28 @@ packages/{package-name}/
 ### 3. tsup.config.ts
 
 ```typescript
-import { defineConfig } from 'tsup';
+import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],
+  entry: ["src/index.ts"],
+  format: ["esm", "cjs"],
   dts: true,
   sourcemap: true,
   clean: true,
   minify: false,
-  target: 'es2020',
-  platform: 'neutral',
-  external: ['@pixielity/container', 'react'],
+  target: "es2020",
+  platform: "neutral",
+  external: ["@pixielity/container", "react"],
   splitting: false,
   skipNodeModulesBundle: true,
   outExtension({ format }) {
-    return { js: format === 'esm' ? '.mjs' : '.js' };
+    return { js: format === "esm" ? ".mjs" : ".js" };
   },
 });
 ```
 
 **Key Points:**
+
 - Dual format output (ESM + CJS)
 - Generate TypeScript declarations
 - Don't minify library code
@@ -409,35 +416,36 @@ export default defineConfig({
 - Proper file extensions (.mjs for ESM, .js for CJS)
 
 **Note for Monorepo:**
+
 - Packages can reference each other using `workspace:*` protocol
 - Examples reference packages using `workspace:*` in dependencies
 
 ### 4. vitest.config.ts
 
 ```typescript
-import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { defineConfig } from "vitest/config";
+import path from "path";
 
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'jsdom', // or 'node' for non-React packages
-    setupFiles: ['__tests__/setup.ts'],
+    environment: "jsdom", // or 'node' for non-React packages
+    setupFiles: ["__tests__/setup.ts"],
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      provider: "v8",
+      reporter: ["text", "json", "html"],
       exclude: [
-        'node_modules/',
-        '__tests__/',
-        'dist/',
-        '**/*.test.ts',
-        '**/*.test.tsx',
+        "node_modules/",
+        "__tests__/",
+        "dist/",
+        "**/*.test.ts",
+        "**/*.test.tsx",
       ],
     },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });
@@ -469,6 +477,7 @@ coverage/
 ```
 
 **Important Notes:**
+
 - `package-lock.json` or `pnpm-lock.yaml` MUST be committed to the repository (do NOT add to .gitignore)
 - The lockfile is required for `npm ci` or `pnpm install --frozen-lockfile` in CI/CD pipelines
 - For monorepo, only root lockfile is needed (`pnpm-lock.yaml` at root)
@@ -478,16 +487,17 @@ coverage/
 ```typescript
 /**
  * @fileoverview Prettier Configuration
- * 
+ *
  * Extends the Nesvel Prettier configuration for consistent code formatting.
- * 
+ *
  * @see https://prettier.io/docs/en/configuration.html
  */
 
-export default '@nesvel/prettier-config';
+export default "@nesvel/prettier-config";
 ```
 
 **Key Points:**
+
 - MUST be named `prettierrc.ts` (not `.prettierrc.js`)
 - MUST include docblock with `@fileoverview` and `@see` tags
 - Extends `@nesvel/prettier-config` for consistency across packages
@@ -591,8 +601,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -622,8 +632,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -659,7 +669,7 @@ name: Publish to npm
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -684,9 +694,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -703,6 +713,7 @@ jobs:
 ```
 
 **Key Points:**
+
 - Use `pnpm install --frozen-lockfile` for reproducible builds
 - Use `pnpm` for all commands (not `npm`)
 - Setup pnpm before Node.js
@@ -730,19 +741,19 @@ src/
 
 ### Registry Implementation Pattern
 
-```typescript
+````typescript
 /**
  * @fileoverview {ComponentType} Registry
- * 
+ *
  * Centralized registry for managing {components} using BaseRegistry
  * from @pixielity/support for consistent registry API.
- * 
+ *
  * Key Features:
  * - Collection-based storage (O(1) operations)
  * - Built-in component registration
  * - Custom component support
  * - Type-safe component access
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Registries
  */
@@ -753,19 +764,19 @@ import type { ComponentInterface } from "@/interfaces/component.interface";
 
 /**
  * {ComponentType} Registry Service (DI-injectable)
- * 
+ *
  * Injectable service for managing {components}.
- * 
+ *
  * @example
  * ```typescript
  * import { useInject } from '@pixielity/container';
  * import { ComponentRegistryService } from '@pixielity/{package-name}';
- * 
+ *
  * const registry = useInject(ComponentRegistryService);
- * 
+ *
  * // Register custom component
  * registry.register('custom', customComponent);
- * 
+ *
  * // Get component
  * const component = registry.get('custom');
  * ```
@@ -787,31 +798,31 @@ export class ComponentRegistryService extends BaseRegistry<ComponentInterface> {
         return { valid: true };
       },
     });
-    
+
     // Register built-in components
     this.loadBuiltInComponents();
   }
 
   private loadBuiltInComponents(): void {
     // Register built-in components here
-    this.registerComponent('builtin1', builtIn1Component, true);
-    this.registerComponent('builtin2', builtIn2Component, true);
+    this.registerComponent("builtin1", builtIn1Component, true);
+    this.registerComponent("builtin2", builtIn2Component, true);
   }
 
   registerComponent(
     name: string,
     component: ComponentInterface,
-    isBuiltIn = false
+    isBuiltIn = false,
   ): void {
     // Check for name conflicts with built-in components
     if (!isBuiltIn && this.builtInComponents.has(name)) {
       throw new Error(
-        `Cannot register component "${name}": This name is reserved for a built-in component.`
+        `Cannot register component "${name}": This name is reserved for a built-in component.`,
       );
     }
 
     this.add(name, component);
-    
+
     if (isBuiltIn) {
       this.builtInComponents.add(name);
     }
@@ -833,7 +844,7 @@ export const componentRegistry = new ComponentRegistryService();
 
 /**
  * Decorator for automatic registration
- * 
+ *
  * @example
  * ```typescript
  * @Component({ name: 'custom' })
@@ -848,7 +859,7 @@ export function Component(options: { name: string }) {
     return target;
   };
 }
-```
+````
 
 ### Module Static Methods Pattern
 
@@ -858,7 +869,7 @@ The module class MUST provide these three static methods following the health.mo
 2. **registerComponent(options)** - Register a single component
 3. **registerComponents(optionsArray)** - Register multiple components
 
-```typescript
+````typescript
 // In {package-name}.module.ts
 
 @Module({})
@@ -867,7 +878,7 @@ export class PackageModule {
 
   /**
    * Configure the module with options
-   * 
+   *
    * @param config - Module configuration
    * @returns Dynamic module
    */
@@ -877,10 +888,10 @@ export class PackageModule {
 
   /**
    * Register a custom component
-   * 
+   *
    * @param options - Component registration options
    * @returns Dynamic module
-   * 
+   *
    * @example
    * ```typescript
    * PackageModule.registerComponent({
@@ -889,9 +900,11 @@ export class PackageModule {
    * });
    * ```
    */
-  static registerComponent(options: IComponentRegistrationOptions): DynamicModule {
+  static registerComponent(
+    options: IComponentRegistrationOptions,
+  ): DynamicModule {
     PackageModule.registry.register(options);
-    
+
     return {
       module: PackageModule,
       providers: [options.component],
@@ -901,15 +914,17 @@ export class PackageModule {
 
   /**
    * Register multiple components
-   * 
+   *
    * @param optionsArray - Array of component registration options
    * @returns Dynamic module
    */
-  static registerComponents(optionsArray: IComponentRegistrationOptions[]): DynamicModule {
+  static registerComponents(
+    optionsArray: IComponentRegistrationOptions[],
+  ): DynamicModule {
     PackageModule.registry.registerMultiple(optionsArray);
-    
+
     const components = optionsArray.map((options) => options.component);
-    
+
     return {
       module: PackageModule,
       providers: components,
@@ -924,7 +939,7 @@ export class PackageModule {
     return PackageModule.registry.keys();
   }
 }
-```
+````
 
 ---
 
@@ -948,7 +963,7 @@ There are two types of index files:
 
 ### Root index.ts Pattern
 
-```typescript
+````typescript
 /**
  * @pixielity/{package-name}
  *
@@ -958,7 +973,7 @@ There are two types of index files:
  * Basic usage:
  * ```typescript
  * import { Service, useHook } from '@pixielity/{package-name}';
- * 
+ *
  * // Usage example
  * ```
  *
@@ -968,71 +983,71 @@ There are two types of index files:
 // ============================================================================
 // Module (DI Configuration)
 // ============================================================================
-export { PackageModule } from './{package-name}.module';
+export { PackageModule } from "./{package-name}.module";
 
 // ============================================================================
 // Core Services
 // ============================================================================
-export { MainService } from './services/main.service';
-export type { MainServiceInterface } from './interfaces/main-service.interface';
+export { MainService } from "./services/main.service";
+export type { MainServiceInterface } from "./interfaces/main-service.interface";
 
 // ============================================================================
 // Registries (if applicable)
 // ============================================================================
-export { ComponentRegistryService, componentRegistry } from './registries';
-export { Component } from './registries';
+export { ComponentRegistryService, componentRegistry } from "./registries";
+export { Component } from "./registries";
 
 // ============================================================================
 // Components (if applicable)
 // ============================================================================
-export { MyComponent } from './components';
-export type { MyComponentProps } from './components';
+export { MyComponent } from "./components";
+export type { MyComponentProps } from "./components";
 
 // ============================================================================
 // Hooks (if applicable)
 // ============================================================================
-export { useMyHook } from './hooks';
-export type { UseMyHookReturn } from './hooks';
+export { useMyHook } from "./hooks";
+export type { UseMyHookReturn } from "./hooks";
 
 // ============================================================================
 // Interfaces
 // ============================================================================
-export type { MyInterface } from './interfaces';
+export type { MyInterface } from "./interfaces";
 
 // ============================================================================
 // Types
 // ============================================================================
-export type { MyType } from './types';
+export type { MyType } from "./types";
 
 // ============================================================================
 // Enums
 // ============================================================================
-export { MyEnum } from './enums';
+export { MyEnum } from "./enums";
 
 // ============================================================================
 // Configuration
 // ============================================================================
-export { DEFAULT_CONFIG } from './config';
+export { DEFAULT_CONFIG } from "./config";
 
 // ============================================================================
 // Constants
 // ============================================================================
-export { MY_CONSTANT } from './constants';
+export { MY_CONSTANT } from "./constants";
 
 // ============================================================================
 // Utilities
 // ============================================================================
-export { myUtil } from './utils';
-```
+export { myUtil } from "./utils";
+````
 
 ### Main Folder Index Pattern
 
 ```typescript
 /**
  * @fileoverview Interfaces Index
- * 
+ *
  * Re-exports all interface definitions.
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Interfaces
  */
@@ -1061,9 +1076,9 @@ export type { ContainerProviderProps } from "./container-provider-props.interfac
 ```typescript
 /**
  * @fileoverview useInject Hook
- * 
+ *
  * Re-exports the useInject hook.
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Hooks
  */
@@ -1072,6 +1087,7 @@ export { useInject } from "./use-inject.hook";
 ```
 
 **Key Points:**
+
 - Group exports by category with comment headers in main folder index files
 - Export both classes and their interfaces
 - Export decorators from registries
@@ -1080,6 +1096,7 @@ export { useInject } from "./use-inject.hook";
 - Sub-folder index files should be simple with just a docblock and exports
 
 **Import Path Rules:**
+
 - NEVER use path aliases like `@/types/service-identifier.type` in source files
 - ALWAYS use relative imports like `"../types"` or `"../../types"`
 - Import from the folder's index file, not individual files (e.g., `from "../types"` not `from "../types/service-identifier.type"`)
@@ -1091,10 +1108,10 @@ export { useInject } from "./use-inject.hook";
 ### Test File Structure
 
 ```typescript
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { MyService } from './my-service.service';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { MyService } from "./my-service.service";
 
-describe('MyService', () => {
+describe("MyService", () => {
   let service: MyService;
 
   beforeEach(() => {
@@ -1105,24 +1122,24 @@ describe('MyService', () => {
     // Cleanup
   });
 
-  describe('methodName', () => {
-    it('should do something when condition is met', () => {
+  describe("methodName", () => {
+    it("should do something when condition is met", () => {
       // Arrange
-      const input = 'test';
-      
+      const input = "test";
+
       // Act
       const result = service.methodName(input);
-      
+
       // Assert
-      expect(result).toBe('expected');
+      expect(result).toBe("expected");
     });
 
-    it('should throw error when invalid input', () => {
+    it("should throw error when invalid input", () => {
       // Arrange
       const invalidInput = null;
-      
+
       // Act & Assert
-      expect(() => service.methodName(invalidInput)).toThrow('Error message');
+      expect(() => service.methodName(invalidInput)).toThrow("Error message");
     });
   });
 });
@@ -1134,12 +1151,12 @@ describe('MyService', () => {
 
 ### Component File Structure
 
-```typescript
+````typescript
 /**
  * @fileoverview {ComponentName} Component
- * 
+ *
  * Brief description of what the component does.
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Components
  */
@@ -1149,9 +1166,9 @@ import type { ComponentNameProps } from './component-name.types';
 
 /**
  * {ComponentName} Component
- * 
+ *
  * Detailed description of the component's purpose and behavior.
- * 
+ *
  * @example
  * ```tsx
  * <ComponentName prop1="value" prop2={123} />
@@ -1163,7 +1180,7 @@ export const ComponentName: React.FC<ComponentNameProps> = ({
   ...rest
 }) => {
   // Component implementation
-  
+
   return (
     <div {...rest}>
       {/* JSX */}
@@ -1172,7 +1189,7 @@ export const ComponentName: React.FC<ComponentNameProps> = ({
 };
 
 ComponentName.displayName = 'ComponentName';
-```
+````
 
 ### Component Types File
 
@@ -1185,7 +1202,7 @@ export interface ComponentNameProps {
    * Description of prop1
    */
   prop1: string;
-  
+
   /**
    * Description of prop2
    * @default 0
@@ -1200,33 +1217,38 @@ export interface ComponentNameProps {
 
 ### Hook File Structure
 
-```typescript
+````typescript
 /**
  * @fileoverview use{HookName} Hook
- * 
+ *
  * Brief description of what the hook does.
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Hooks
  */
 
-import { useState, useEffect } from 'react';
-import type { UseHookNameReturn, UseHookNameOptions } from './use-hook-name.types';
+import { useState, useEffect } from "react";
+import type {
+  UseHookNameReturn,
+  UseHookNameOptions,
+} from "./use-hook-name.types";
 
 /**
  * use{HookName} Hook
- * 
+ *
  * Detailed description of the hook's purpose and behavior.
- * 
+ *
  * @param options - Hook options
  * @returns Hook return value
- * 
+ *
  * @example
  * ```tsx
  * const { value, setValue } = useHookName({ initialValue: 'test' });
  * ```
  */
-export const useHookName = (options?: UseHookNameOptions): UseHookNameReturn => {
+export const useHookName = (
+  options?: UseHookNameOptions,
+): UseHookNameReturn => {
   const [value, setValue] = useState(options?.initialValue);
 
   useEffect(() => {
@@ -1238,7 +1260,7 @@ export const useHookName = (options?: UseHookNameOptions): UseHookNameReturn => 
     setValue,
   };
 };
-```
+````
 
 ### Hook Types File
 
@@ -1261,7 +1283,7 @@ export interface UseHookNameReturn {
    * Current value
    */
   value: string | undefined;
-  
+
   /**
    * Set value function
    */
@@ -1275,25 +1297,25 @@ export interface UseHookNameReturn {
 
 ### Service File Structure
 
-```typescript
+````typescript
 /**
  * @fileoverview {ServiceName} Service
- * 
+ *
  * Brief description of what the service does.
- * 
+ *
  * @module @pixielity/{package-name}
  * @category Services
  */
 
-import { Injectable, Inject } from '@pixielity/container';
-import type { ServiceNameInterface } from '@/interfaces/service-name.interface';
-import { DEPENDENCY_TOKEN } from '@/constants/tokens.constant';
+import { Injectable, Inject } from "@pixielity/container";
+import type { ServiceNameInterface } from "@/interfaces/service-name.interface";
+import { DEPENDENCY_TOKEN } from "@/constants/tokens.constant";
 
 /**
  * {ServiceName} Service
- * 
+ *
  * Detailed description of the service's purpose and behavior.
- * 
+ *
  * @example
  * ```typescript
  * @Injectable()
@@ -1306,13 +1328,11 @@ import { DEPENDENCY_TOKEN } from '@/constants/tokens.constant';
  */
 @Injectable()
 export class ServiceName implements ServiceNameInterface {
-  constructor(
-    @Inject(DEPENDENCY_TOKEN) private dependency: DependencyType
-  ) {}
+  constructor(@Inject(DEPENDENCY_TOKEN) private dependency: DependencyType) {}
 
   /**
    * Method description
-   * 
+   *
    * @param param - Parameter description
    * @returns Return value description
    */
@@ -1321,7 +1341,7 @@ export class ServiceName implements ServiceNameInterface {
     return this.dependency.process(param);
   }
 }
-```
+````
 
 ---
 
@@ -1331,33 +1351,33 @@ export class ServiceName implements ServiceNameInterface {
 
 All packages that provide configurable functionality MUST follow this standard module pattern, inspired by the health.module.ts reference implementation.
 
-```typescript
+````typescript
 /**
  * @fileoverview {PackageName} Module
- * 
+ *
  * Brief description of what the module provides.
- * 
+ *
  * Features:
  * - Feature 1
  * - Feature 2
  * - Feature 3
- * 
+ *
  * @module {PackageName}Module
- * 
+ *
  * @example Basic Usage
  * ```typescript
  * import { PackageModule } from '@pixielity/{package-name}';
- * 
+ *
  * @Module({
  *   imports: [PackageModule.forRoot()],
  * })
  * export class AppModule {}
  * ```
- * 
+ *
  * @example With Configuration
  * ```typescript
  * import { PackageModule } from '@pixielity/{package-name}';
- * 
+ *
  * @Module({
  *   imports: [
  *     PackageModule.forRoot({
@@ -1368,7 +1388,7 @@ All packages that provide configurable functionality MUST follow this standard m
  * })
  * export class AppModule {}
  * ```
- * 
+ *
  * @example With Custom Registration
  * ```typescript
  * @Module({
@@ -1387,9 +1407,9 @@ All packages that provide configurable functionality MUST follow this standard m
 export class PackageModule {
   /**
    * Global registry instance
-   * 
+   *
    * Shared across all module instances to manage registered components.
-   * 
+   *
    * @private
    * @static
    */
@@ -1397,14 +1417,14 @@ export class PackageModule {
 
   /**
    * Register Module with Configuration
-   * 
+   *
    * Primary method for configuring and initializing the module.
    * Merges user configuration with sensible defaults.
-   * 
+   *
    * @static
    * @param {IPackageModuleOptions} config - Module configuration options
    * @returns {DynamicModule} Configured dynamic module
-   * 
+   *
    * @example Basic configuration
    * ```typescript
    * @Module({
@@ -1417,7 +1437,7 @@ export class PackageModule {
    * })
    * export class AppModule {}
    * ```
-   * 
+   *
    * @example Advanced configuration
    * ```typescript
    * @Module({
@@ -1440,7 +1460,7 @@ export class PackageModule {
   static forRoot(config: IPackageModuleOptions = {}): DynamicModule {
     // Merge with defaults
     const mergedConfig: IPackageModuleOptions = {
-      basePath: config.basePath || 'default',
+      basePath: config.basePath || "default",
       enabled: config.enabled !== false,
       components: {
         component1: config.components?.component1 !== false,
@@ -1461,7 +1481,7 @@ export class PackageModule {
       providers.push(Component1);
       PackageModule.registry.register({
         component: Component1,
-        name: 'component1',
+        name: "component1",
       });
     }
 
@@ -1469,7 +1489,7 @@ export class PackageModule {
       providers.push(Component2);
       PackageModule.registry.register({
         component: Component2,
-        name: 'component2',
+        name: "component2",
       });
     }
 
@@ -1491,7 +1511,8 @@ export class PackageModule {
     });
 
     // Add all registered components from registry
-    const registeredComponents = PackageModule.registry.getAllComponentClasses();
+    const registeredComponents =
+      PackageModule.registry.getAllComponentClasses();
     providers.push(...registeredComponents);
 
     // Create dynamic controller/service with config (if needed)
@@ -1505,25 +1526,25 @@ export class PackageModule {
       controllers: [DynamicController],
       providers,
       exports: providers.filter(
-        (p) => typeof p !== 'object' || p.provide !== PACKAGE_MODULE_CONFIG
+        (p) => typeof p !== "object" || p.provide !== PACKAGE_MODULE_CONFIG,
       ),
     };
   }
 
   /**
    * Register a custom component
-   * 
+   *
    * Registers a component to be used across the application.
    * The component will be automatically available in the module.
-   * 
+   *
    * This method provides a clean way to register custom components
    * without manual dependency injection, following the same pattern
    * as SearchModule.registerIndex() from @nesvel/nestjs-search.
-   * 
+   *
    * @static
    * @param {IComponentRegistrationOptions} options - Component registration options
    * @returns {DynamicModule} A dynamic module with the registered component
-   * 
+   *
    * @example Register a custom component
    * ```typescript
    * @Module({
@@ -1537,7 +1558,7 @@ export class PackageModule {
    * })
    * export class AppModule {}
    * ```
-   * 
+   *
    * @example Register with options
    * ```typescript
    * @Module({
@@ -1556,7 +1577,9 @@ export class PackageModule {
    * export class AppModule {}
    * ```
    */
-  static registerComponent(options: IComponentRegistrationOptions): DynamicModule {
+  static registerComponent(
+    options: IComponentRegistrationOptions,
+  ): DynamicModule {
     // Register the component in the global registry
     PackageModule.registry.register(options);
 
@@ -1569,14 +1592,14 @@ export class PackageModule {
 
   /**
    * Register multiple custom components
-   * 
+   *
    * Convenience method to register multiple components at once.
    * Functionally equivalent to calling registerComponent() multiple times.
-   * 
+   *
    * @static
    * @param {IComponentRegistrationOptions[]} optionsArray - Array of component registration options
    * @returns {DynamicModule} A dynamic module with all registered components
-   * 
+   *
    * @example Register multiple components
    * ```typescript
    * @Module({
@@ -1591,20 +1614,20 @@ export class PackageModule {
    * })
    * export class AppModule {}
    * ```
-   * 
+   *
    * @example Register with mixed options
    * ```typescript
    * @Module({
    *   imports: [
    *     PackageModule.forRoot({ ... }),
    *     PackageModule.registerComponents([
-   *       { 
-   *         component: CustomComponent1, 
+   *       {
+   *         component: CustomComponent1,
    *         name: 'custom1',
    *         options: { priority: 10 }
    *       },
-   *       { 
-   *         component: CustomComponent2, 
+   *       {
+   *         component: CustomComponent2,
    *         name: 'custom2',
    *         options: { enabled: false }
    *       },
@@ -1614,7 +1637,9 @@ export class PackageModule {
    * export class AppModule {}
    * ```
    */
-  static registerComponents(optionsArray: IComponentRegistrationOptions[]): DynamicModule {
+  static registerComponents(
+    optionsArray: IComponentRegistrationOptions[],
+  ): DynamicModule {
     // Register all components in the global registry
     PackageModule.registry.registerMultiple(optionsArray);
 
@@ -1628,7 +1653,7 @@ export class PackageModule {
     };
   }
 }
-```
+````
 
 ### Module Pattern Key Principles
 
@@ -1811,6 +1836,7 @@ All exported functions, classes, interfaces, and types MUST have JSDoc comments 
 ## ✅ Checklist for Creating a New Package
 
 ### Initial Setup
+
 - [ ] Create package directory: `packages/{category}/{package-name}/`
 - [ ] Create `package.json` with correct name, version, and dependencies
 - [ ] Create `tsconfig.json` with correct configuration
@@ -1821,6 +1847,7 @@ All exported functions, classes, interfaces, and types MUST have JSDoc comments 
 - [ ] Create `eslint.config.js` file
 
 ### Source Structure
+
 - [ ] Create `src/` directory
 - [ ] Create `src/index.ts` as main entry point
 - [ ] Create `src/{package-name}.module.ts` following the standard module pattern
@@ -1845,6 +1872,7 @@ All exported functions, classes, interfaces, and types MUST have JSDoc comments 
   - [ ] `factories/` for dynamic factories (if needed)
 
 ### Registry Pattern (if applicable)
+
 - [ ] Create `registries/` folder
 - [ ] Create registry service extending `BaseRegistry`
 - [ ] Create global singleton instance
@@ -1854,6 +1882,7 @@ All exported functions, classes, interfaces, and types MUST have JSDoc comments 
 - [ ] Add validation logic
 
 ### Testing
+
 - [ ] Create `__tests__/` directory
 - [ ] Create test setup file
 - [ ] Write unit tests for all services
@@ -1861,12 +1890,14 @@ All exported functions, classes, interfaces, and types MUST have JSDoc comments 
 - [ ] Achieve >80% code coverage
 
 ### Documentation
+
 - [ ] Create comprehensive `README.md`
 - [ ] Add JSDoc comments to all exports
 - [ ] Create `.examples/` directory with usage examples
 - [ ] Create `.docs/` directory for additional documentation (if needed)
 
 ### Build & Publish
+
 - [ ] Run `pnpm build` to verify build works
 - [ ] Run `pnpm test` to verify all tests pass
 - [ ] Run `pnpm lint` to verify code quality

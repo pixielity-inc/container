@@ -1,10 +1,15 @@
-import { Injectable, Inject, type OnModuleInit, type OnModuleDestroy } from '@abdokouta/react-di';
-import { LOGGER_SERVICE } from '@/constants';
+import {
+  Injectable,
+  Inject,
+  type OnModuleInit,
+  type OnModuleDestroy,
+} from "@abdokouta/react-di";
+import { LOGGER_SERVICE } from "@/constants";
 
 /**
  * Service with lifecycle hooks demonstration
  * Shows initialization and cleanup patterns
- * 
+ *
  * Implements OnModuleInit and OnModuleDestroy interfaces
  * These methods are called by the module's onActivation and onDeactivation hooks
  */
@@ -15,7 +20,7 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
   private cleanupCallbacks: Array<() => void> = [];
 
   constructor(@Inject(LOGGER_SERVICE) private logger: any) {
-    this.logger.info('LifecycleService constructor called');
+    this.logger.info("LifecycleService constructor called");
   }
 
   /**
@@ -24,15 +29,19 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
    * Use for async setup, resource allocation, etc.
    */
   onModuleInit(): void {
-    this.logger.info('LifecycleService.onModuleInit() - Initializing resources...');
+    this.logger.info(
+      "LifecycleService.onModuleInit() - Initializing resources...",
+    );
 
     // Simulate initialization (sync version for demo)
-    this.resources.push('Database Connection');
-    this.resources.push('Cache Connection');
-    this.resources.push('Message Queue');
+    this.resources.push("Database Connection");
+    this.resources.push("Cache Connection");
+    this.resources.push("Message Queue");
 
     this.isInitialized = true;
-    this.logger.info('LifecycleService.onModuleInit() - Initialization complete');
+    this.logger.info(
+      "LifecycleService.onModuleInit() - Initialization complete",
+    );
   }
 
   /**
@@ -41,7 +50,9 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
    * Use for cleanup, closing connections, etc.
    */
   onModuleDestroy(): void {
-    this.logger.info('LifecycleService.onModuleDestroy() - Cleaning up resources...');
+    this.logger.info(
+      "LifecycleService.onModuleDestroy() - Cleaning up resources...",
+    );
 
     // Clean up resources
     this.resources.forEach((resource) => {
@@ -53,7 +64,7 @@ export class LifecycleService implements OnModuleInit, OnModuleDestroy {
 
     this.resources = [];
     this.isInitialized = false;
-    this.logger.info('LifecycleService.onModuleDestroy() - Cleanup complete');
+    this.logger.info("LifecycleService.onModuleDestroy() - Cleanup complete");
   }
 
   getStatus(): { initialized: boolean; resources: string[] } {

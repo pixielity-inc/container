@@ -1,6 +1,7 @@
 import type { DynamicModule } from "inversiland";
 import type { Newable } from "inversiland";
 import type { ModuleMetadataArg } from "../types";
+import { applyGlobalIfNeeded, isGlobalModule } from "./global.util";
 
 /**
  * Helper for creating forRoot dynamic modules
@@ -38,9 +39,26 @@ export function forRoot(
   moduleClass: Newable,
   metadata: Omit<ModuleMetadataArg, "module">,
 ): DynamicModule {
+  console.log(`[forRoot] Creating dynamic module for: ${moduleClass.name}`);
+
+  const providers = metadata.providers || [];
+  const processedProviders = applyGlobalIfNeeded(moduleClass, providers);
+
+  // If module is global, providers are bound globally and don't need to be exported
+  const isGlobal = isGlobalModule(moduleClass);
+  const exports = isGlobal ? [] : (metadata.exports || []);
+
+  if (isGlobal) {
+    console.log(
+      `[forRoot] Module ${moduleClass.name} is global, removing exports (providers are globally available)`,
+    );
+  }
+
   return {
     module: moduleClass,
     ...metadata,
+    providers: processedProviders,
+    exports,
   };
 }
 
@@ -77,8 +95,25 @@ export function forFeature(
   moduleClass: Newable,
   metadata: Omit<ModuleMetadataArg, "module">,
 ): DynamicModule {
+  console.log(`[forFeature] Creating dynamic module for: ${moduleClass.name}`);
+
+  const providers = metadata.providers || [];
+  const processedProviders = applyGlobalIfNeeded(moduleClass, providers);
+
+  // If module is global, providers are bound globally and don't need to be exported
+  const isGlobal = isGlobalModule(moduleClass);
+  const exports = isGlobal ? [] : (metadata.exports || []);
+
+  if (isGlobal) {
+    console.log(
+      `[forFeature] Module ${moduleClass.name} is global, removing exports (providers are globally available)`,
+    );
+  }
+
   return {
     module: moduleClass,
     ...metadata,
+    providers: processedProviders,
+    exports,
   };
 }

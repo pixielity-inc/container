@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@abdokouta/react-di';
-import { CACHE_CONFIG, LOGGER_SERVICE } from '@/constants';
+import { Injectable, Inject } from "@abdokouta/react-di";
+import { CACHE_CONFIG, LOGGER_SERVICE } from "@/constants";
 
 export interface CacheConfig {
   maxSize: number;
@@ -17,10 +17,10 @@ export class CacheService {
 
   constructor(
     @Inject(CACHE_CONFIG) private config: CacheConfig,
-    @Inject(LOGGER_SERVICE) private logger: any
+    @Inject(LOGGER_SERVICE) private logger: any,
   ) {
     this.logger.info(
-      `CacheService initialized with maxSize: ${config.maxSize}, ttl: ${config.ttl}ms`
+      `CacheService initialized with maxSize: ${config.maxSize}, ttl: ${config.ttl}ms`,
     );
   }
 
@@ -59,7 +59,7 @@ export class CacheService {
 
   clear(): void {
     this.cache.clear();
-    this.logger.log('Cache cleared');
+    this.logger.log("Cache cleared");
   }
 
   getStats() {

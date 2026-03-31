@@ -5,6 +5,7 @@
 A production-ready dependency injection container for React applications with NestJS-style modules, built on top of Inversiland.
 
 This is a monorepo project using:
+
 - **Turbo** - Build system orchestration and caching
 - **pnpm workspaces** - Package management and linking
 - **packages/container** - Main library package
@@ -55,50 +56,52 @@ This is a monorepo project using:
 ---
 
 ## 📁 Package Structure (packages/container/)
+
 ├── src/
-│   ├── decorators/          # 9 decorators
-│   │   ├── module.decorator.ts
-│   │   ├── injectable.decorator.ts
-│   │   ├── inject.decorator.ts
-│   │   ├── multi-inject.decorator.ts
-│   │   ├── optional.decorator.ts
-│   │   ├── inject-provided.decorator.ts
-│   │   ├── inject-imported.decorator.ts
-│   │   ├── multi-inject-provided.decorator.ts
-│   │   └── multi-inject-imported.decorator.ts
-│   ├── hooks/               # 2 React hooks
-│   │   ├── use-inject.hook.ts
-│   │   └── use-module.hook.ts
-│   ├── types/               # 6 type definition files
-│   │   ├── module-metadata.type.ts
-│   │   ├── provider.type.ts
-│   │   ├── inversiland.type.ts
-│   │   ├── scope.type.ts
-│   │   ├── log-level.type.ts
-│   │   └── module-options.type.ts
-│   ├── utils/               # 2 utility files
-│   │   ├── module-helpers.util.ts
-│   │   └── create-module-factory.util.ts
-│   ├── constants/           # 1 constants file
-│   │   └── index.ts
-│   └── index.ts             # Main entry point
-├── examples/                # 2 working examples
-│   ├── basic-usage.tsx
-│   └── dynamic-module.tsx
-├── dist/                    # Build output
-│   ├── index.js             # CJS (5.16 KB)
-│   ├── index.mjs            # ESM (3.24 KB)
-│   ├── index.d.ts           # Types (16.89 KB)
-│   └── *.map                # Source maps
-├── README.md                # Complete documentation
-├── CHANGELOG.md             # Version history
-├── LICENSE                  # MIT license
-├── PRODUCTION_READY.md      # Production status
-├── PRODUCTION_CHECKLIST.md  # Development checklist
-├── package.json             # Package metadata
-├── tsconfig.json            # TypeScript config
-└── tsup.config.ts           # Build config
-```
+│ ├── decorators/ # 9 decorators
+│ │ ├── module.decorator.ts
+│ │ ├── injectable.decorator.ts
+│ │ ├── inject.decorator.ts
+│ │ ├── multi-inject.decorator.ts
+│ │ ├── optional.decorator.ts
+│ │ ├── inject-provided.decorator.ts
+│ │ ├── inject-imported.decorator.ts
+│ │ ├── multi-inject-provided.decorator.ts
+│ │ └── multi-inject-imported.decorator.ts
+│ ├── hooks/ # 2 React hooks
+│ │ ├── use-inject.hook.ts
+│ │ └── use-module.hook.ts
+│ ├── types/ # 6 type definition files
+│ │ ├── module-metadata.type.ts
+│ │ ├── provider.type.ts
+│ │ ├── inversiland.type.ts
+│ │ ├── scope.type.ts
+│ │ ├── log-level.type.ts
+│ │ └── module-options.type.ts
+│ ├── utils/ # 2 utility files
+│ │ ├── module-helpers.util.ts
+│ │ └── create-module-factory.util.ts
+│ ├── constants/ # 1 constants file
+│ │ └── index.ts
+│ └── index.ts # Main entry point
+├── examples/ # 2 working examples
+│ ├── basic-usage.tsx
+│ └── dynamic-module.tsx
+├── dist/ # Build output
+│ ├── index.js # CJS (5.16 KB)
+│ ├── index.mjs # ESM (3.24 KB)
+│ ├── index.d.ts # Types (16.89 KB)
+│ └── \*.map # Source maps
+├── README.md # Complete documentation
+├── CHANGELOG.md # Version history
+├── LICENSE # MIT license
+├── PRODUCTION_READY.md # Production status
+├── PRODUCTION_CHECKLIST.md # Development checklist
+├── package.json # Package metadata
+├── tsconfig.json # TypeScript config
+└── tsup.config.ts # Build config
+
+````
 
 ---
 
@@ -182,9 +185,10 @@ This is a monorepo project using:
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true
 }
-```
+````
 
 ### Build Configuration
+
 - **Bundler**: tsup (esbuild)
 - **Formats**: CJS + ESM
 - **Type Declarations**: Yes
@@ -193,6 +197,7 @@ This is a monorepo project using:
 - **External**: react, react-dom
 
 ### Browser Support
+
 - Modern browsers (ES2020+)
 - Node.js 14+
 - React 18+
@@ -202,6 +207,7 @@ This is a monorepo project using:
 ## 📖 Usage Patterns
 
 ### Basic Pattern
+
 ```typescript
 // 1. Define service
 @Injectable()
@@ -212,7 +218,7 @@ class UserService {
 // 2. Create module
 @Module({
   providers: [UserService, Logger],
-  exports: [UserService]
+  exports: [UserService],
 })
 class UserModule {}
 
@@ -224,22 +230,21 @@ const userService = useInject(UserService, AppModule);
 ```
 
 ### Dynamic Module Pattern
+
 ```typescript
 @Module({})
 class ConfigModule {
   static forRoot(config: Config): DynamicModule {
     return forRoot(ConfigModule, {
-      providers: [
-        { provide: CONFIG_TOKEN, useValue: config },
-        ConfigService
-      ],
-      exports: [ConfigService]
+      providers: [{ provide: CONFIG_TOKEN, useValue: config }, ConfigService],
+      exports: [ConfigService],
     });
   }
 }
 ```
 
 ### Provider Types
+
 ```typescript
 // Class provider
 { provide: UserService, useClass: UserService }
@@ -262,6 +267,7 @@ class ConfigModule {
 ## ✅ Quality Assurance
 
 ### Code Quality
+
 - ✅ TypeScript strict mode
 - ✅ Full type coverage
 - ✅ JSDoc comments on all exports
@@ -270,6 +276,7 @@ class ConfigModule {
 - ✅ No any types in public API
 
 ### Documentation Quality
+
 - ✅ Comprehensive README
 - ✅ Working code examples
 - ✅ API reference
@@ -278,6 +285,7 @@ class ConfigModule {
 - ✅ Troubleshooting tips
 
 ### Build Quality
+
 - ✅ Clean builds
 - ✅ No build warnings
 - ✅ Proper externals
@@ -286,6 +294,7 @@ class ConfigModule {
 - ✅ Multiple formats (CJS/ESM)
 
 ### Package Quality
+
 - ✅ Proper package.json
 - ✅ LICENSE file
 - ✅ CHANGELOG
@@ -298,6 +307,7 @@ class ConfigModule {
 ## 🚀 Publishing Readiness
 
 ### Pre-Publish Checklist
+
 - [x] All code complete
 - [x] All documentation complete
 - [x] All examples working
@@ -310,12 +320,14 @@ class ConfigModule {
 - [x] README accurate
 
 ### Publish Command
+
 ```bash
 cd packages/!prod/container
 npm publish
 ```
 
 ### Post-Publish Tasks
+
 1. Create GitHub release (v1.0.0)
 2. Update documentation site
 3. Announce on social media
@@ -327,6 +339,7 @@ npm publish
 ## 📈 Roadmap
 
 ### Version 1.0.0 (Current)
+
 - ✅ Core DI functionality
 - ✅ NestJS-style modules
 - ✅ React hooks
@@ -334,18 +347,21 @@ npm publish
 - ✅ Full TypeScript support
 
 ### Version 1.1.0 (Planned)
+
 - [ ] Comprehensive test suite
 - [ ] Performance benchmarks
 - [ ] More examples
 - [ ] Migration guides
 
 ### Version 1.2.0 (Future)
+
 - [ ] Debugging utilities
 - [ ] Module visualization
 - [ ] Performance monitoring
 - [ ] Development warnings
 
 ### Version 2.0.0 (Future)
+
 - [ ] React Server Components support
 - [ ] Async module initialization
 - [ ] Module hot reloading
@@ -356,11 +372,13 @@ npm publish
 ## 🎓 Learning Resources
 
 ### Official Documentation
+
 - README.md - Package documentation
 - examples/ - Working code examples
 - CHANGELOG.md - Version history
 
 ### External Resources
+
 - [Inversiland Docs](https://github.com/inversiland/inversiland)
 - [InversifyJS Docs](https://inversify.io/)
 - [NestJS Modules](https://docs.nestjs.com/modules)
@@ -370,6 +388,7 @@ npm publish
 ## 🤝 Contributing
 
 ### Development Setup
+
 ```bash
 # Clone repository
 git clone https://github.com/refinedev/refine.git
@@ -388,6 +407,7 @@ npm run dev
 ```
 
 ### Code Standards
+
 - TypeScript strict mode
 - ESLint configuration
 - Prettier formatting
@@ -415,4 +435,3 @@ MIT License - See LICENSE file for details
 **Version**: 1.0.0
 **Status**: Production Ready ✅
 **Last Updated**: March 29, 2026
-

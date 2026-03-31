@@ -14,21 +14,14 @@ export default function IndexPage() {
           <span className={title()}>Dependency Injection&nbsp;</span>
           <span className={title({ color: "blue" })}>for React&nbsp;</span>
           <br />
-          <span className={title()}>
-            with NestJS-style modules
-          </span>
+          <span className={title()}>with NestJS-style modules</span>
           <div className={subtitle({ class: "mt-4" })}>
             Built with @abdokouta/react-di and HeroUI
           </div>
         </div>
 
         <div className="flex gap-3">
-          <Button
-            as={Link}
-            color="primary"
-            size="lg"
-            to="/container"
-          >
+          <Button as={Link} color="primary" size="lg" to="/container">
             View Container Demo
           </Button>
           <Button

@@ -1,35 +1,74 @@
-# @pixielity/react-di
+<p align="center">
+  <img src="./assets/banner.svg" alt="@abdokouta/react-di" width="100%" />
+</p>
 
-Dependency injection container for React with NestJS-style modules. Built on top of [Inversiland](https://github.com/inversiland/inversiland) to provide powerful, type-safe dependency injection for React applications.
+<h1 align="center">@abdokouta/react-di</h1>
 
-## Features
+<p align="center">
+  <strong>Powerful dependency injection for React with NestJS-style modules</strong>
+</p>
 
-- 🎯 NestJS-style module system for React
-- 💉 Powerful dependency injection with decorators
-- 🔄 Dynamic modules with `forRoot` and `forFeature` patterns
-- ⚛️ React hooks for accessing dependencies
-- 📦 Hierarchical module structure
-- 🎨 TypeScript-first with full type safety
+<p align="center">
+  <a href="https://www.npmjs.com/package/@abdokouta/react-di"><img src="https://img.shields.io/npm/v/@abdokouta/react-di.svg?style=flat-square" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/@abdokouta/react-di"><img src="https://img.shields.io/npm/dm/@abdokouta/react-di.svg?style=flat-square" alt="npm downloads" /></a>
+  <a href="https://github.com/abdokouta/react-di/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@abdokouta/react-di.svg?style=flat-square" alt="license" /></a>
+  <a href="https://github.com/abdokouta/react-di"><img src="https://img.shields.io/github/stars/abdokouta/react-di?style=flat-square" alt="GitHub stars" /></a>
+</p>
 
-## Installation
+<p align="center">
+  Built on top of <a href="https://github.com/inversiland/inversiland">Inversiland</a> • TypeScript-first • Zero boilerplate
+</p>
+
+---
+
+## ✨ Features
+
+- 🎯 **NestJS-style modules** - Familiar patterns for organizing your React app
+- 💉 **Powerful DI** - Constructor injection with decorators
+- 🔄 **Dynamic modules** - `forRoot` and `forFeature` patterns
+- ⚛️ **React hooks** - `useInject` for seamless component integration
+- 🌍 **Global modules** - Share services across your entire app
+- 🔥 **HMR support** - Works perfectly with Vite hot module replacement
+- 📦 **Tree-shakeable** - Only bundle what you use
+- 🎨 **TypeScript-first** - Full type safety and IntelliSense
+
+## 📦 Installation
 
 ```bash
-npm install @pixielity/react-di
-# or
-yarn add @pixielity/react-di
-# or
-pnpm add @pixielity/react-di
+npm install @abdokouta/react-di reflect-metadata
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
-### 1. Define Services
+### 1. Initialize the Container
 
 ```typescript
-import { Injectable, Inject } from "@pixielity/react-di";
+// main.tsx
+import "reflect-metadata";
+import { Container, ContainerProvider } from "@abdokouta/react-di";
+import { AppModule } from "./modules/app.module";
+
+Container
+  .configure()
+  .withModule(AppModule)
+  .withLogLevel(import.meta.env.DEV ? "debug" : "info")
+  .withDefaultScope("Singleton")
+  .build();
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <ContainerProvider module={AppModule}>
+    <App />
+  </ContainerProvider>
+);
+```
+
+### 2. Create Services
+
+```typescript
+import { Injectable, Inject } from "@abdokouta/react-di";
 
 @Injectable()
-export class Logger {
+export class LoggerService {
   log(message: string) {
     console.log(`[LOG]: ${message}`);
   }
@@ -37,297 +76,138 @@ export class Logger {
 
 @Injectable()
 export class UserService {
-  constructor(@Inject(Logger) private logger: Logger) {}
+  constructor(@Inject(LoggerService) private logger: LoggerService) {}
 
   getUsers() {
     this.logger.log("Fetching users...");
-    return ["Alice", "Bob"];
+    return [{ id: 1, name: "John" }];
   }
 }
 ```
 
-### 2. Create a Module
+### 3. Create Modules
 
 ```typescript
-import { Module } from "@pixielity/react-di";
-import { UserService } from "./user.service";
-import { Logger } from "./logger.service";
+import { Module } from "@abdokouta/react-di";
 
 @Module({
-  providers: [UserService, Logger],
-  exports: [UserService],
-})
-export class UserModule {}
-```
-
-### 3. Create Root Module
-
-```typescript
-import { Module } from "@pixielity/react-di";
-import { UserModule } from "./user/user.module";
-
-@Module({
-  imports: [UserModule],
+  providers: [LoggerService, UserService],
 })
 export class AppModule {}
 ```
 
-### 4. Use ContainerProvider (React - Recommended)
+### 4. Use in Components
 
 ```typescript
-// main.tsx
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { ContainerProvider } from "@pixielity/react-di";
-import { AppModule } from "./app.module";
-import App from "./App";
+import { useInject } from "@abdokouta/react-di";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ContainerProvider module={AppModule}>
-      <App />
-    </ContainerProvider>
-  </StrictMode>
-);
-```
-
-**What ContainerProvider does:**
-- Automatically calls `Inversiland.run(AppModule)` once
-- Provides container via React Context
-- Enables `useInject()` without module parameter
-- Handles React StrictMode safely
-
-### 5. Use in Components
-
-```typescript
-import { useInject } from "@pixielity/react-di";
-import { UserService } from "./user.service";
-
-function UserList() {
-  // No need to pass AppModule - gets from ContainerProvider context
+export function UserList() {
   const userService = useInject(UserService);
   const users = userService.getUsers();
 
   return (
     <ul>
-      {users.map((user) => (
-        <li key={user}>{user}</li>
-      ))}
+      {users.map(user => <li key={user.id}>{user.name}</li>)}
     </ul>
   );
 }
 ```
 
-### Alternative: Manual Initialization (Node.js/Backend)
-
-For non-React applications:
+## 🏗️ Container Builder API
 
 ```typescript
-import { Inversiland, getModuleContainer } from "@pixielity/react-di";
-import { AppModule } from "./app.module";
-import { UserService } from "./user.service";
+// Full configuration
+Container
+  .configure()
+  .withModule(AppModule)
+  .withLogLevel("debug")
+  .withDefaultScope("Singleton")
+  .build();
 
-// Configure and run the module system ONCE at startup
-Inversiland.options.logLevel = "debug";
-Inversiland.options.defaultScope = "Singleton";
-Inversiland.run(AppModule);
+// With config object
+Container
+  .configure()
+  .withModule(AppModule)
+  .withConfig({ logLevel: "debug", defaultScope: "Singleton" })
+  .build();
 
-// Get services from container
-const container = getModuleContainer(AppModule);
-const userService = container.get(UserService);
+// With defaults
+Container
+  .configure()
+  .withModule(AppModule)
+  .withDefaults()
+  .build();
 ```
 
-## Dynamic Modules
-
-Create configurable modules with `forRoot` and `forFeature` patterns:
+## 🌍 Global Modules
 
 ```typescript
-import { Module, forRoot, type DynamicModule } from "@pixielity/react-di";
+import { Module, Global } from "@abdokouta/react-di";
 
-export const DATABASE_CONFIG = Symbol("DATABASE_CONFIG");
+@Global()
+@Module({
+  providers: [LoggerService],
+})
+export class LoggerModule {}
+```
+
+## 🔄 Dynamic Modules
+
+```typescript
+import { Module, forRoot, type DynamicModule } from "@abdokouta/react-di";
 
 @Module({})
-export class DatabaseModule {
-  static forRoot(config: DatabaseConfig): DynamicModule {
-    return forRoot(DatabaseModule, {
-      providers: [
-        {
-          provide: DATABASE_CONFIG,
-          useValue: config,
-        },
-        DatabaseService,
-      ],
-      exports: [DatabaseService],
+export class ConfigModule {
+  static forRoot(config: AppConfig): DynamicModule {
+    return forRoot(ConfigModule, {
+      providers: [{ provide: CONFIG, useValue: config }],
+      exports: [ConfigService],
     });
   }
 }
-
-// Usage
-@Module({
-  imports: [
-    DatabaseModule.forRoot({
-      host: "localhost",
-      port: 5432,
-    }),
-  ],
-})
-export class AppModule {}
 ```
 
-## Provider Types
+## 📋 Provider Types
 
-### Class Provider
+| Type | Example |
+|------|---------|
+| Class | `UserService` or `{ provide: USER, useClass: UserService }` |
+| Value | `{ provide: API_URL, useValue: "https://api.example.com" }` |
+| Factory | `{ provide: CONNECTION, useFactory: (ctx) => () => createConnection() }` |
+| Async Factory | `{ provide: DB, useAsyncFactory: () => async () => await connect() }` |
+| Alias | `{ provide: "Logger", useExisting: LoggerService }` |
 
-```typescript
-{
-  provide: UserService,
-  useClass: UserService,
-}
-```
+## 🎣 React Hooks
 
-### Value Provider
+| Hook | Description |
+|------|-------------|
+| `useInject<T>(token)` | Inject a service |
+| `useContainer()` | Get container context |
+| `useModule(module)` | Get module container |
 
-```typescript
-{
-  provide: API_KEY,
-  useValue: "my-api-key",
-}
-```
+## 🔧 Decorators
 
-### Factory Provider
+| Decorator | Description |
+|-----------|-------------|
+| `@Module()` | Define a module |
+| `@Global()` | Make module global |
+| `@Injectable()` | Mark class as injectable |
+| `@Inject(token)` | Inject dependency |
+| `@MultiInject(token)` | Inject all with token |
+| `@Optional()` | Optional dependency |
 
-```typescript
-{
-  provide: CONNECTION,
-  useFactory: (context) => () => createConnection(),
-}
-```
+## 📚 Documentation
 
-### Async Factory Provider
+- [Full Documentation](./packages/container/README.md)
+- [Examples](./examples/vite)
+- [API Reference](./packages/container/README.md#-decorators)
 
-```typescript
-{
-  provide: CONNECTION,
-  useAsyncFactory: () => async () => {
-    const connection = await createConnection();
-    return connection;
-  },
-}
-```
+## 📄 License
 
-### Existing Provider (Alias)
+MIT © [Abdo Kouta](https://github.com/abdokouta)
 
-```typescript
-{
-  provide: "USER_SERVICE_ALIAS",
-  useExisting: UserService,
-}
-```
+---
 
-## Scopes
-
-Control the lifecycle of your services:
-
-```typescript
-@Module({
-  providers: [
-    {
-      provide: UserService,
-      useClass: UserService,
-      scope: "Singleton", // Default: shared across the app
-    },
-    {
-      provide: RequestService,
-      useClass: RequestService,
-      scope: "Transient", // New instance every time
-    },
-  ],
-})
-export class AppModule {}
-```
-
-## API Reference
-
-### Decorators
-
-- `@Module(metadata)` - Define a module
-- `@Injectable()` - Mark a class as injectable
-- `@Inject(token)` - Inject a dependency
-- `@MultiInject(token)` - Inject multiple dependencies with the same token
-- `@Optional()` - Mark a dependency as optional
-- `@InjectProvided(token)` - Inject only local providers (advanced)
-- `@InjectImported(token)` - Inject only imported providers (advanced)
-- `@MultiInjectProvided(token)` - Multi-inject only local providers (advanced)
-- `@MultiInjectImported(token)` - Multi-inject only imported providers (advanced)
-
-### React Hooks
-
-- `useInject<T>(token, module?)` - Inject a service in a component (module optional with ContainerProvider)
-- `useModule(module)` - Access the module container
-- `useContainer()` - Get container from ContainerProvider context
-
-### React Components
-
-- `<ContainerProvider module={Module}>` - Initialize and provide container context (recommended for React apps)
-
-### Utilities
-
-- `forRoot(module, metadata)` - Create a root dynamic module
-- `forFeature(module, metadata)` - Create a feature dynamic module
-- `createModuleFactory(module, metadata)` - Generic module factory helper
-
-## Important: Initialization
-
-### The Two-Phase Lifecycle
-
-1. **Decorator Phase (Import Time)**: `@Module()` creates empty containers and stores metadata
-2. **Initialization Phase (Runtime)**: `Inversiland.run()` binds providers to containers
-
-### React Apps: Use ContainerProvider
-
-```typescript
-<ContainerProvider module={AppModule}>
-  <App />
-</ContainerProvider>
-```
-
-The `ContainerProvider`:
-- Calls `Inversiland.run()` automatically (once)
-- Provides container via React Context
-- Enables `useInject()` without module parameter
-
-### Node.js/Backend: Call Inversiland.run()
-
-```typescript
-Inversiland.run(AppModule); // Call once at startup
-```
-
-### Common Mistake
-
-❌ **Don't access services before initialization:**
-```typescript
-@Module({ providers: [UserService] })
-class AppModule {}
-
-const container = getModuleContainer(AppModule);
-const service = container.get(UserService); // Error: No bindings found
-```
-
-✅ **Initialize first:**
-```typescript
-Inversiland.run(AppModule); // Initialize
-const container = getModuleContainer(AppModule);
-const service = container.get(UserService); // Works!
-```
-
-See [Container Setup Guide](../../.docs/CONTAINER_SETUP_GUIDE.md) for detailed patterns and troubleshooting.
-
-## Learn More
-
-- [Inversiland Documentation](https://github.com/inversiland/inversiland)
-- [NestJS Modules](https://docs.nestjs.com/modules)
-- [InversifyJS](https://inversify.io/)
-
-## License
-
-MIT
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/abdokouta">Abdo Kouta</a>
+</p>

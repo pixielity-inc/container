@@ -5,6 +5,7 @@ This example demonstrates the `@abdokouta/react-di` dependency injection contain
 ## Features Demonstrated
 
 ### 1. Basic DI Container (`/container`)
+
 - **Singleton Services**: LoggerService, CounterService, UserService
 - **Dependency Injection**: Services injecting other services
 - **React Integration**: Using `useInject()` hook in components
@@ -14,20 +15,24 @@ This example demonstrates the `@abdokouta/react-di` dependency injection contain
 ### 2. Advanced Patterns (`/advanced`)
 
 #### Dynamic Modules
+
 - **forRoot Pattern**: ConfigModule with runtime configuration
 - **forFeature Pattern**: CacheModule with feature-specific config
 - **Async Factory**: ApiModule with async connection initialization
 
 #### Service Scopes
+
 - **Singleton** (default): Same instance across the app
 - **Transient**: New instance per injection
 - **Request Scope**: Simulated request-scoped services
 
 #### Lifecycle Hooks
+
 - **onInit()**: Async initialization, resource allocation
 - **onDestroy()**: Cleanup, connection closing
 
 #### Testing Patterns
+
 - **Testable Services**: Designed for easy mocking
 - **Dependency Mocking**: Mock LoggerService, CacheService
 - **Business Logic Isolation**: Pure functions easy to test
@@ -66,6 +71,7 @@ src/
 ## Key Concepts
 
 ### Module System
+
 Modules organize providers and their dependencies:
 
 ```typescript
@@ -80,22 +86,25 @@ export class MyModule {}
 ### Dynamic Modules
 
 **forRoot** - Root-level configuration:
+
 ```typescript
 ConfigModule.forRoot({
-  apiUrl: 'https://api.example.com',
+  apiUrl: "https://api.example.com",
   timeout: 5000,
-})
+});
 ```
 
 **forFeature** - Feature-specific configuration:
+
 ```typescript
 CacheModule.forFeature({
   maxSize: 100,
   ttl: 60000,
-})
+});
 ```
 
 ### Async Factories
+
 For services requiring async initialization:
 
 ```typescript
@@ -111,12 +120,14 @@ For services requiring async initialization:
 ### Service Scopes
 
 **Singleton** (default):
+
 ```typescript
 @Injectable()
 export class MySingletonService {}
 ```
 
 **Transient**:
+
 ```typescript
 {
   provide: MyService,

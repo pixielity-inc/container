@@ -111,6 +111,7 @@ This package provides foundational dependency injection infrastructure for React
 ## Compliance Checklist
 
 ### Initial Setup
+
 - [x] Package directory structure
 - [x] `package.json` with correct configuration
 - [x] `tsconfig.json` with decorators enabled
@@ -121,24 +122,28 @@ This package provides foundational dependency injection infrastructure for React
 - [x] `eslint.config.js` file
 
 ### Source Structure
+
 - [x] `src/` directory
 - [x] `src/index.ts` as main entry point
 - [x] Organized folder structure
 - [x] Index files for re-exports
 
 ### Testing
+
 - [x] `__tests__/` directory
 - [x] Test setup files
 - [x] Unit tests
 - [x] Test coverage
 
 ### Documentation
+
 - [x] Comprehensive `README.md`
 - [x] JSDoc comments on exports
 - [x] `.examples/` directory
 - [x] `.docs/` directory
 
 ### Build & Publish
+
 - [x] Build works (`pnpm build`)
 - [x] Tests pass (`pnpm test`)
 - [x] Linting passes (`pnpm lint`)
@@ -172,6 +177,7 @@ The package is production-ready and follows best practices for a React DI contai
 The `@abdokouta/react-di` package is **COMPLIANT** with the Pixielity Package Structure Guide, with acceptable exceptions for its package type. The structure is clean, well-organized, and follows React and TypeScript best practices.
 
 The package successfully:
+
 - ✅ Provides a clean API for dependency injection in React
 - ✅ Enforces React-friendly patterns (ContainerProvider)
 - ✅ Includes comprehensive examples and documentation

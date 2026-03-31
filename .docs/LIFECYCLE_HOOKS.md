@@ -11,11 +11,13 @@ Lifecycle hooks in `@abdokouta/react-di` are provided by the underlying Inversil
 Called **after** an instance is created and **before** it's returned to the requester.
 
 **Signature:**
+
 ```typescript
 onActivation?: (context: interfaces.Context, injectable: T) => T
 ```
 
 **Use Cases:**
+
 - Initialize resources (database connections, file handles)
 - Set up event listeners
 - Perform post-construction setup
@@ -23,6 +25,7 @@ onActivation?: (context: interfaces.Context, injectable: T) => T
 - Wrap instance with proxy
 
 **Example:**
+
 ```typescript
 @Module({
   providers: [
@@ -44,11 +47,13 @@ export class AppModule {}
 Called **before** an instance is destroyed (when container is disposed).
 
 **Signature:**
+
 ```typescript
 onDeactivation?: (injectable: T) => void
 ```
 
 **Use Cases:**
+
 - Close database connections
 - Clean up file handles
 - Remove event listeners
@@ -56,6 +61,7 @@ onDeactivation?: (injectable: T) => void
 - Release resources
 
 **Example:**
+
 ```typescript
 @Module({
   providers: [
@@ -139,6 +145,7 @@ export class DatabaseModule {}
 Lifecycle hooks behave differently based on the provider scope:
 
 ### Singleton Scope
+
 - `onActivation`: Called **once** when first requested
 - `onDeactivation`: Called **once** when container is disposed
 - Instance is shared across the entire application
@@ -156,6 +163,7 @@ Lifecycle hooks behave differently based on the provider scope:
 ```
 
 ### Transient Scope
+
 - `onActivation`: Called **every time** the service is injected
 - `onDeactivation`: Called when container is disposed (for all instances)
 - New instance created for each injection
@@ -173,6 +181,7 @@ Lifecycle hooks behave differently based on the provider scope:
 ```
 
 ### Request Scope
+
 - `onActivation`: Called **once per request**
 - `onDeactivation`: Called at end of request
 - Instance is shared within a single request
@@ -192,12 +201,13 @@ Lifecycle hooks behave differently based on the provider scope:
 ## Best Practices
 
 ### 1. Keep Hooks Simple
+
 ```typescript
 // ✅ Good - Simple initialization
 onActivation: (ctx, instance) => {
   instance.initialize();
   return instance;
-}
+};
 
 // ❌ Bad - Complex logic in hook
 onActivation: (ctx, instance) => {
@@ -207,51 +217,55 @@ onActivation: (ctx, instance) => {
   instance.setupListeners();
   instance.validateState();
   return instance;
-}
+};
 ```
 
 ### 2. Handle Async Operations
+
 ```typescript
 // ✅ Good - Async initialization
 onActivation: async (ctx, instance) => {
   await instance.connect();
   return instance;
-}
+};
 
 // ⚠️ Note: Async hooks are supported but may delay injection
 ```
 
 ### 3. Always Return Instance in onActivation
+
 ```typescript
 // ✅ Good - Returns instance
 onActivation: (ctx, instance) => {
   instance.initialize();
   return instance; // Required!
-}
+};
 
 // ❌ Bad - Doesn't return instance
 onActivation: (ctx, instance) => {
   instance.initialize();
   // Missing return!
-}
+};
 ```
 
 ### 4. Clean Up Resources in onDeactivation
+
 ```typescript
 // ✅ Good - Proper cleanup
 onDeactivation: (instance) => {
   instance.removeAllListeners();
   instance.closeConnections();
   instance.clearCache();
-}
+};
 
 // ❌ Bad - No cleanup
 onDeactivation: (instance) => {
   // Resources leak!
-}
+};
 ```
 
 ### 5. Use Constructor for Simple Setup
+
 ```typescript
 // ✅ Good - Simple setup in constructor
 @Injectable()
@@ -282,19 +296,19 @@ import { useEffect } from "react";
 
 function MyComponent() {
   const service = useInject(MyService);
-  
+
   useEffect(() => {
     // Service is already initialized by onActivation
     // You can use it immediately
     service.doWork();
-    
+
     // Component cleanup (not service cleanup)
     return () => {
       // Don't call service.cleanup() here
       // onDeactivation handles that
     };
   }, [service]);
-  
+
   return <div>{service.getData()}</div>;
 }
 ```
@@ -302,6 +316,7 @@ function MyComponent() {
 ## Comparison with Other Frameworks
 
 ### NestJS
+
 ```typescript
 // NestJS
 @Injectable()
@@ -320,12 +335,17 @@ class MyService implements OnModuleInit, OnModuleDestroy {
 ```
 
 ### Angular
+
 ```typescript
 // Angular
 @Injectable()
 class MyService implements OnInit, OnDestroy {
-  ngOnInit() { /* init */ }
-  ngOnDestroy() { /* cleanup */ }
+  ngOnInit() {
+    /* init */
+  }
+  ngOnDestroy() {
+    /* cleanup */
+  }
 }
 
 // @abdokouta/react-di (via Inversiland)
@@ -354,5 +374,6 @@ class MyService implements OnInit, OnDestroy {
 ---
 
 **See Also:**
+
 - [Inversiland Documentation](https://github.com/carlossalasamper/inversiland)
 - [InversifyJS Lifecycle](https://github.com/inversify/InversifyJS/blob/master/wiki/activation_handler.md)

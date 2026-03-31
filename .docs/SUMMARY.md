@@ -20,30 +20,35 @@ We've successfully added NestJS-style lifecycle interfaces to `@abdokouta/react-
 The interfaces are now exported from the main package:
 
 ```typescript
-import { 
-  OnModuleInit, 
+import {
+  OnModuleInit,
   OnModuleDestroy,
   hasOnModuleInit,
-  hasOnModuleDestroy 
-} from '@abdokouta/react-di';
+  hasOnModuleDestroy,
+} from "@abdokouta/react-di";
 ```
 
 ### Usage Example
 
 ```typescript
-import { Injectable, Inject, OnModuleInit, OnModuleDestroy } from '@abdokouta/react-di';
+import {
+  Injectable,
+  Inject,
+  OnModuleInit,
+  OnModuleDestroy,
+} from "@abdokouta/react-di";
 
 @Injectable()
 export class MyService implements OnModuleInit, OnModuleDestroy {
   constructor(@Inject(LoggerService) private logger: LoggerService) {}
 
   async onModuleInit(): Promise<void> {
-    this.logger.info('Service initializing...');
+    this.logger.info("Service initializing...");
     // Initialize resources
   }
 
   onModuleDestroy(): void {
-    this.logger.info('Service destroying...');
+    this.logger.info("Service destroying...");
     // Cleanup resources
   }
 }
@@ -85,6 +90,7 @@ The vite example has been updated to demonstrate these interfaces:
 ### Tests
 
 All 11 tests pass:
+
 - ✅ OnModuleInit interface implementation
 - ✅ OnModuleDestroy interface implementation
 - ✅ Async support for both interfaces
@@ -95,19 +101,20 @@ All 11 tests pass:
 ### Documentation
 
 Three comprehensive documentation files:
+
 1. `LIFECYCLE_HOOKS.md` - Inversiland's onActivation/onDeactivation hooks
 2. `LIFECYCLE_INTERFACES.md` - NestJS-style OnModuleInit/OnModuleDestroy interfaces
 3. `PATTERNS.md` - Advanced patterns including lifecycle management
 
 ## Comparison with NestJS
 
-| Feature | NestJS | @abdokouta/react-di |
-|---------|--------|---------------------|
-| Interface names | ✅ Same | ✅ Same |
-| Method names | ✅ Same | ✅ Same |
-| Async support | ✅ Yes | ✅ Yes |
+| Feature         | NestJS       | @abdokouta/react-di       |
+| --------------- | ------------ | ------------------------- |
+| Interface names | ✅ Same      | ✅ Same                   |
+| Method names    | ✅ Same      | ✅ Same                   |
+| Async support   | ✅ Yes       | ✅ Yes                    |
 | Auto-invocation | ✅ Automatic | ⚠️ Requires module config |
-| Type guards | ❌ No | ✅ Yes |
+| Type guards     | ❌ No        | ✅ Yes                    |
 
 The main difference is that NestJS automatically calls these methods, while our implementation requires explicit configuration in the module's `onActivation` and `onDeactivation` hooks.
 

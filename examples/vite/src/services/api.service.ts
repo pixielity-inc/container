@@ -14,7 +14,7 @@ export interface ApiConnection {
 export class ApiService {
   constructor(
     @Inject(API_CONNECTION) private connection: ApiConnection,
-    @Inject(LOGGER_SERVICE) private logger: any
+    @Inject(LOGGER_SERVICE) private logger: any,
   ) {
     this.logger.info("ApiService initialized with connection");
   }

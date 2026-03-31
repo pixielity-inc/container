@@ -49,7 +49,9 @@
         "."
       ],
       "disabled": false,
-      "autoApprove": []
+      "autoApprove": [
+        "read_file"
+      ]
     },
     "github": {
       "command": "npx",
@@ -131,7 +133,7 @@
         "-y",
         "@abdokouta/inversiland-mcp@latest"
       ],
-      "disabled": false,
+      "disabled": true,
       "autoApprove": [
         "explore_structure",
         "read_file",
@@ -146,7 +148,7 @@
         "-y",
         "@abdokouta/refine-mcp@latest"
       ],
-      "disabled": false,
+      "disabled": true,
       "autoApprove": [
         "explore_structure",
         "read_file",

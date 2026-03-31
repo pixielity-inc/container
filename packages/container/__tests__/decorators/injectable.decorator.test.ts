@@ -1,11 +1,11 @@
 /**
  * @fileoverview Tests for Injectable decorator
- * 
+ *
  * This comprehensive test suite verifies the @Injectable() decorator functionality,
  * which marks classes as injectable dependencies in the DI container. The decorator
  * is a fundamental building block that enables classes to be registered and resolved
  * by the dependency injection system.
- * 
+ *
  * Test Coverage:
  * - Class decoration and basic functionality
  * - Multiple decorated classes working independently
@@ -13,11 +13,11 @@
  * - Constructor parameter handling
  * - Class inheritance scenarios
  * - Edge cases (empty classes, static methods)
- * 
+ *
  * The @Injectable() decorator wraps Inversiland's injectable decorator and provides
  * the foundation for dependency injection in React applications. It uses reflect-metadata
  * to store type information that enables automatic dependency resolution.
- * 
+ *
  * @module @pixielity/react-di
  * @category Tests
  * @see {@link Injectable} - The decorator being tested
@@ -30,14 +30,14 @@ import "reflect-metadata";
 
 /**
  * Test Suite: Injectable Decorator
- * 
+ *
  * Tests the @Injectable() decorator which marks classes as injectable dependencies.
  * This decorator is essential for enabling dependency injection in the container system.
  */
 describe("Injectable Decorator", () => {
   /**
    * Test Group: Class Decoration
-   * 
+   *
    * Verifies that the @Injectable() decorator properly decorates classes without
    * interfering with their normal functionality. Tests ensure that decorated classes
    * maintain their methods, properties, and behavior while being registered in the
@@ -46,10 +46,10 @@ describe("Injectable Decorator", () => {
   describe("Class Decoration", () => {
     /**
      * Test: Basic class decoration
-     * 
+     *
      * Verifies that a class can be decorated with @Injectable() and that the
      * decoration doesn't interfere with basic class instantiation and method calls.
-     * 
+     *
      * Expected Behavior:
      * - Class should be defined after decoration
      * - Instance methods should work correctly
@@ -74,11 +74,11 @@ describe("Injectable Decorator", () => {
 
     /**
      * Test: Multiple decorated classes
-     * 
+     *
      * Ensures that multiple classes can be decorated with @Injectable() independently
      * without interfering with each other. This is crucial for a DI system where
      * many services need to be registered simultaneously.
-     * 
+     *
      * Expected Behavior:
      * - Each decorated class should maintain its own identity
      * - Classes should not share state or interfere with each other
@@ -105,11 +105,11 @@ describe("Injectable Decorator", () => {
 
     /**
      * Test: Method preservation
-     * 
+     *
      * Verifies that the @Injectable() decorator preserves all class methods,
      * including getters, setters, and methods that access private state.
      * The decorator should be transparent to the class's internal implementation.
-     * 
+     *
      * Expected Behavior:
      * - All methods should remain functional
      * - Private state should be accessible to methods
@@ -141,11 +141,11 @@ describe("Injectable Decorator", () => {
 
     /**
      * Test: Property preservation
-     * 
+     *
      * Ensures that class properties (both public and private) are preserved
      * after decoration. Properties should maintain their visibility modifiers
      * and initial values.
-     * 
+     *
      * Expected Behavior:
      * - Public properties should remain accessible
      * - Private properties should remain encapsulated
@@ -176,7 +176,7 @@ describe("Injectable Decorator", () => {
 
   /**
    * Test Group: Constructor Parameters
-   * 
+   *
    * Tests how the @Injectable() decorator handles classes with different
    * constructor signatures. This is important because the DI container needs
    * to understand constructor dependencies to perform automatic injection.
@@ -184,10 +184,10 @@ describe("Injectable Decorator", () => {
   describe("Constructor Parameters", () => {
     /**
      * Test: Classes without constructor parameters
-     * 
+     *
      * Verifies that classes with no constructor or an empty constructor
      * can be decorated and instantiated without issues.
-     * 
+     *
      * Expected Behavior:
      * - Class should be instantiable without arguments
      * - No errors should occur during decoration or instantiation
@@ -205,12 +205,12 @@ describe("Injectable Decorator", () => {
 
     /**
      * Test: Classes with constructor parameters
-     * 
+     *
      * Ensures that classes with constructor parameters can be decorated
      * and that the decorator doesn't interfere with parameter passing.
      * While the DI container will inject dependencies automatically,
      * manual instantiation should still work.
-     * 
+     *
      * Expected Behavior:
      * - Constructor parameters should be accepted
      * - Parameters should be accessible within the class
@@ -237,7 +237,7 @@ describe("Injectable Decorator", () => {
 
   /**
    * Test Group: Inheritance
-   * 
+   *
    * Tests how the @Injectable() decorator works with class inheritance.
    * Both base and derived classes should be decoratable, and inheritance
    * chains should work correctly with the DI system.
@@ -245,11 +245,11 @@ describe("Injectable Decorator", () => {
   describe("Inheritance", () => {
     /**
      * Test: Class inheritance with decorated classes
-     * 
+     *
      * Verifies that both base and derived classes can be decorated with
      * @Injectable() and that the inheritance chain remains functional.
      * This is important for creating hierarchies of services.
-     * 
+     *
      * Expected Behavior:
      * - Both base and derived classes should be decoratable
      * - Derived classes should inherit base class methods
@@ -284,7 +284,7 @@ describe("Injectable Decorator", () => {
 
   /**
    * Test Group: Edge Cases
-   * 
+   *
    * Tests unusual but valid scenarios to ensure the decorator is robust
    * and handles edge cases gracefully. These tests verify behavior with
    * minimal classes, static members, and other special cases.
@@ -292,11 +292,11 @@ describe("Injectable Decorator", () => {
   describe("Edge Cases", () => {
     /**
      * Test: Empty classes
-     * 
+     *
      * Verifies that completely empty classes (no properties, no methods)
      * can be decorated and instantiated. While not common in practice,
      * this ensures the decorator doesn't require any minimum class structure.
-     * 
+     *
      * Expected Behavior:
      * - Empty classes should be decoratable
      * - Instantiation should succeed
@@ -315,11 +315,11 @@ describe("Injectable Decorator", () => {
 
     /**
      * Test: Classes with static methods
-     * 
+     *
      * Ensures that classes with static methods can be decorated and that
      * both static and instance methods remain functional. Static methods
      * are not injected but should not interfere with the decorator.
-     * 
+     *
      * Expected Behavior:
      * - Static methods should remain callable on the class
      * - Instance methods should work on instances

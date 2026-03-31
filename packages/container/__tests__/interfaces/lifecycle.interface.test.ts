@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 import {
   type OnModuleInit,
   type OnModuleDestroy,
   hasOnModuleInit,
   hasOnModuleDestroy,
-} from '../../src/interfaces/lifecycle.interface';
+} from "../../src/interfaces/lifecycle.interface";
 
-describe('Lifecycle Interfaces', () => {
-  describe('OnModuleInit', () => {
-    it('should define onModuleInit method', () => {
+describe("Lifecycle Interfaces", () => {
+  describe("OnModuleInit", () => {
+    it("should define onModuleInit method", () => {
       class TestService implements OnModuleInit {
         onModuleInit(): void {
           // Implementation
@@ -16,10 +16,10 @@ describe('Lifecycle Interfaces', () => {
       }
 
       const service = new TestService();
-      expect(typeof service.onModuleInit).toBe('function');
+      expect(typeof service.onModuleInit).toBe("function");
     });
 
-    it('should support async onModuleInit', async () => {
+    it("should support async onModuleInit", async () => {
       class TestService implements OnModuleInit {
         initialized = false;
 
@@ -35,8 +35,8 @@ describe('Lifecycle Interfaces', () => {
     });
   });
 
-  describe('OnModuleDestroy', () => {
-    it('should define onModuleDestroy method', () => {
+  describe("OnModuleDestroy", () => {
+    it("should define onModuleDestroy method", () => {
       class TestService implements OnModuleDestroy {
         onModuleDestroy(): void {
           // Implementation
@@ -44,10 +44,10 @@ describe('Lifecycle Interfaces', () => {
       }
 
       const service = new TestService();
-      expect(typeof service.onModuleDestroy).toBe('function');
+      expect(typeof service.onModuleDestroy).toBe("function");
     });
 
-    it('should support async onModuleDestroy', async () => {
+    it("should support async onModuleDestroy", async () => {
       class TestService implements OnModuleDestroy {
         destroyed = false;
 
@@ -63,9 +63,9 @@ describe('Lifecycle Interfaces', () => {
     });
   });
 
-  describe('Type Guards', () => {
-    describe('hasOnModuleInit', () => {
-      it('should return true for objects with onModuleInit method', () => {
+  describe("Type Guards", () => {
+    describe("hasOnModuleInit", () => {
+      it("should return true for objects with onModuleInit method", () => {
         const obj = {
           onModuleInit: () => {},
         };
@@ -73,19 +73,19 @@ describe('Lifecycle Interfaces', () => {
         expect(hasOnModuleInit(obj)).toBe(true);
       });
 
-      it('should return false for objects without onModuleInit method', () => {
+      it("should return false for objects without onModuleInit method", () => {
         const obj = {};
         expect(hasOnModuleInit(obj)).toBe(false);
       });
 
-      it('should return false for null/undefined', () => {
+      it("should return false for null/undefined", () => {
         expect(hasOnModuleInit(null)).toBe(false);
         expect(hasOnModuleInit(undefined)).toBe(false);
       });
     });
 
-    describe('hasOnModuleDestroy', () => {
-      it('should return true for objects with onModuleDestroy method', () => {
+    describe("hasOnModuleDestroy", () => {
+      it("should return true for objects with onModuleDestroy method", () => {
         const obj = {
           onModuleDestroy: () => {},
         };
@@ -93,20 +93,20 @@ describe('Lifecycle Interfaces', () => {
         expect(hasOnModuleDestroy(obj)).toBe(true);
       });
 
-      it('should return false for objects without onModuleDestroy method', () => {
+      it("should return false for objects without onModuleDestroy method", () => {
         const obj = {};
         expect(hasOnModuleDestroy(obj)).toBe(false);
       });
 
-      it('should return false for null/undefined', () => {
+      it("should return false for null/undefined", () => {
         expect(hasOnModuleDestroy(null)).toBe(false);
         expect(hasOnModuleDestroy(undefined)).toBe(false);
       });
     });
   });
 
-  describe('Combined Usage', () => {
-    it('should support both interfaces on same class', () => {
+  describe("Combined Usage", () => {
+    it("should support both interfaces on same class", () => {
       class TestService implements OnModuleInit, OnModuleDestroy {
         initialized = false;
         destroyed = false;
@@ -121,7 +121,7 @@ describe('Lifecycle Interfaces', () => {
       }
 
       const service = new TestService();
-      
+
       expect(hasOnModuleInit(service)).toBe(true);
       expect(hasOnModuleDestroy(service)).toBe(true);
 

@@ -39,8 +39,18 @@ import { METADATA_KEYS } from "@/constants";
  */
 export function isGlobalModule(target: any): boolean {
   try {
-    return Reflect.getMetadata(METADATA_KEYS.GLOBAL, target.prototype) === true;
-  } catch {
+    const isGlobal =
+      Reflect.getMetadata(METADATA_KEYS.GLOBAL, target.prototype) === true;
+    const moduleName = target.name || target.constructor?.name || "Unknown";
+    console.log(
+      `[isGlobalModule] Checking module: ${moduleName}, isGlobal: ${isGlobal}`,
+    );
+    return isGlobal;
+  } catch (error) {
+    console.log(
+      `[isGlobalModule] Error checking module, returning false:`,
+      error,
+    );
     return false;
   }
 }
@@ -121,24 +131,40 @@ export function isGlobalModule(target: any): boolean {
  * ```
  */
 export function makeProvidersGlobal(providers: any[]): any[] {
-  return providers.map((provider) => {
+  console.log(
+    `[makeProvidersGlobal] Making ${providers.length} providers global`,
+  );
+
+  return providers.map((provider, index) => {
     // Handle class providers (shorthand)
     if (typeof provider === "function") {
-      return {
+      const result = {
         provide: provider,
         useClass: provider,
         isGlobal: true,
       };
+      console.log(
+        `[makeProvidersGlobal] Provider ${index}: Class shorthand ${provider.name} -> isGlobal: true`,
+      );
+      return result;
     }
 
     // Handle object providers
     if (typeof provider === "object" && provider !== null) {
+      const providerName =
+        provider.provide?.toString() || provider.provide?.name || "Unknown";
+      console.log(
+        `[makeProvidersGlobal] Provider ${index}: ${providerName} -> isGlobal: true`,
+      );
       return {
         ...provider,
         isGlobal: true,
       };
     }
 
+    console.log(
+      `[makeProvidersGlobal] Provider ${index}: Unknown type, returning as-is`,
+    );
     return provider;
   });
 }
@@ -249,8 +275,19 @@ export function makeProvidersGlobal(providers: any[]): any[] {
  * ```
  */
 export function applyGlobalIfNeeded(moduleClass: any, providers: any[]): any[] {
+  const moduleName =
+    moduleClass.name || moduleClass.constructor?.name || "Unknown";
+  console.log(`[applyGlobalIfNeeded] Called for module: ${moduleName}`);
+
   if (isGlobalModule(moduleClass)) {
+    console.log(
+      `[applyGlobalIfNeeded] Module ${moduleName} is global, applying to providers`,
+    );
     return makeProvidersGlobal(providers);
   }
+
+  console.log(
+    `[applyGlobalIfNeeded] Module ${moduleName} is NOT global, returning providers unchanged`,
+  );
   return providers;
 }

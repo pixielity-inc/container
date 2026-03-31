@@ -12,10 +12,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
 
   useEffect(() => {
     const root = document.documentElement;
-    const savedTheme = localStorage.getItem("theme") as
-      | "light"
-      | "dark"
-      | null;
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     const initialTheme = savedTheme || "dark";
 
     setTheme(initialTheme);

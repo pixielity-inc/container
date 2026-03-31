@@ -1,7 +1,10 @@
-import { Module, forRoot, type DynamicModule } from '@abdokouta/react-di';
-import { ApiService, API_CONNECTION, type ApiConnection } from '@/services/api.service';
-import { LoggerService } from '@/services/logger.service';
-import { API_SERVICE, LOGGER_SERVICE } from '@/constants';
+import { Module, forRoot, type DynamicModule } from "@abdokouta/react-di";
+import {
+  ApiService,
+  API_CONNECTION,
+  type ApiConnection,
+} from "@/services/api.service";
+import { API_SERVICE } from "@/constants";
 
 export interface ApiModuleOptions {
   baseUrl: string;
@@ -17,7 +20,6 @@ export class ApiModule {
   static forRoot(options: ApiModuleOptions): DynamicModule {
     return forRoot(ApiModule, {
       providers: [
-        { provide: LOGGER_SERVICE, useClass: LoggerService },
         {
           provide: API_CONNECTION,
           useAsyncFactory: () => async (): Promise<ApiConnection> => {

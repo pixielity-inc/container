@@ -37,6 +37,7 @@ export default function AdvancedPage() {
 
   // Advanced Patterns
   const testableService = useInject<TestableService>(TESTABLE_SERVICE);
+  const cacheService = useInject<CacheService>(CACHE_SERVICE);
 
   // State Management
   const [apiStatus, setApiStatus] = useState(false);
@@ -455,11 +456,11 @@ export default function AdvancedPage() {
               <Card className="p-4">
                 <h4 className="text-lg font-bold mb-2">Symbol Tokens</h4>
                 <p className="text-xs text-default-500">
-                  Use Symbol() for unique injection tokens to avoid naming
+                  Use Symbol.for() for unique injection tokens to avoid naming
                   conflicts
                 </p>
                 <code className="text-xs bg-default-100 p-2 rounded block mt-2">
-                  CACHE_CONFIG = Symbol()
+                  CACHE_CONFIG = Symbol.for()
                 </code>
               </Card>
 

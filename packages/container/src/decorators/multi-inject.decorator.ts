@@ -14,7 +14,7 @@ import type { ServiceIdentifier } from "../types";
  * ```typescript
  * import { Injectable, MultiInject } from "@pixielity/react-di";
  *
- * const PLUGIN_TOKEN = Symbol("Plugin");
+ * const PLUGIN_TOKEN = Symbol.for("Plugin");
  *
  * @Injectable()
  * export class PluginManager {

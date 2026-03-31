@@ -1,17 +1,19 @@
 import { Module } from "@abdokouta/react-di";
-import { LoggerService } from "@/services/logger.service";
 import { CounterService } from "@/services/counter.service";
 import { UserService } from "@/services/user.service";
+import { LoggerModule } from "./logger.module";
 import { ConfigModule } from "./config.module";
 import { ApiModule } from "./api.module";
 import { CacheModule } from "./cache.module";
 import { TestingModule } from "./testing.module";
 import { LifecycleModule } from "./lifecycle.module";
 import { ScopeModule } from "./scope.module";
-import { LOGGER_SERVICE, COUNTER_SERVICE, USER_SERVICE, CACHE_SERVICE } from "@/constants";
+import { COUNTER_SERVICE, USER_SERVICE } from "@/constants";
 
 @Module({
   imports: [
+    // Global logger - available to all modules
+    LoggerModule,
     // Dynamic module with forRoot - configuration at root level
     ConfigModule.forRoot({
       apiUrl: "https://api.example.com",
@@ -37,16 +39,9 @@ import { LOGGER_SERVICE, COUNTER_SERVICE, USER_SERVICE, CACHE_SERVICE } from "@/
     ScopeModule,
   ],
   providers: [
-    { provide: LOGGER_SERVICE, useClass: LoggerService },
     { provide: COUNTER_SERVICE, useClass: CounterService },
     { provide: USER_SERVICE, useClass: UserService },
   ],
-  exports: [
-    LOGGER_SERVICE,
-    COUNTER_SERVICE,
-    USER_SERVICE,
-    // Export CACHE_SERVICE so child modules like TestingModule can access it
-    CACHE_SERVICE,
-  ],
+  exports: [COUNTER_SERVICE, USER_SERVICE],
 })
 export class AppModule {}

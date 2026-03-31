@@ -6,10 +6,11 @@ import { CounterService } from "@/services/counter.service";
 import { UserService, type User } from "@/services/user.service";
 import DefaultLayout from "@/layouts/default";
 import { title } from "@/components/primitives";
+import { COUNTER_SERVICE, USER_SERVICE } from "@/constants";
 
 export default function ContainerPage() {
-  const counterService = useInject(CounterService);
-  const userService = useInject(UserService);
+  const counterService = useInject<CounterService>(COUNTER_SERVICE);
+  const userService = useInject<UserService>(USER_SERVICE);
 
   const [count, setCount] = useState(counterService.getCount());
   const [users, setUsers] = useState<User[]>(userService.getUsers());
@@ -64,7 +65,7 @@ export default function ContainerPage() {
                 Decrement
               </Button>
               <Chip color="accent" size="lg" variant="soft">
-                <Chip.Label>Count: {count}</Chip.Label>
+                Count: {count}
               </Chip>
               <Button onPress={() => counterService.increment()}>
                 Increment
@@ -112,39 +113,43 @@ export default function ContainerPage() {
             </div>
 
             {/* Users Table */}
-            <Table aria-label="Users table">
-              <Table.Header>
-                <Table.Column>NAME</Table.Column>
-                <Table.Column>EMAIL</Table.Column>
-                <Table.Column>ROLE</Table.Column>
-                <Table.Column>ACTIONS</Table.Column>
-              </Table.Header>
-              <Table.Body>
-                {users.map((user) => (
-                  <Table.Row key={user.id}>
-                    <Table.Cell>{user.name}</Table.Cell>
-                    <Table.Cell>{user.email}</Table.Cell>
-                    <Table.Cell>
-                      <Chip
-                        color={user.role === "Admin" ? "success" : "default"}
-                        size="sm"
-                        variant="soft"
-                      >
-                        <Chip.Label>{user.role}</Chip.Label>
-                      </Chip>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button
-                        size="sm"
-                        variant="danger"
-                        onPress={() => handleDeleteUser(user.id)}
-                      >
-                        Delete
-                      </Button>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
+            <Table>
+              <Table.ScrollContainer>
+                <Table.Content aria-label="Users table">
+                  <Table.Header>
+                    <Table.Column isRowHeader>NAME</Table.Column>
+                    <Table.Column>EMAIL</Table.Column>
+                    <Table.Column>ROLE</Table.Column>
+                    <Table.Column>ACTIONS</Table.Column>
+                  </Table.Header>
+                  <Table.Body>
+                    {users.map((user) => (
+                      <Table.Row key={user.id}>
+                        <Table.Cell>{user.name}</Table.Cell>
+                        <Table.Cell>{user.email}</Table.Cell>
+                        <Table.Cell>
+                          <Chip
+                            color={user.role === "Admin" ? "success" : "default"}
+                            size="sm"
+                            variant="soft"
+                          >
+                            {user.role}
+                          </Chip>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            onPress={() => handleDeleteUser(user.id)}
+                          >
+                            Delete
+                          </Button>
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table.Content>
+              </Table.ScrollContainer>
             </Table>
           </Card>
 
