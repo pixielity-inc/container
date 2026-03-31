@@ -32,13 +32,16 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf dist",
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:coverage": "vitest --run --coverage",
     "test:ui": "vitest --ui",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\"",
-    "lint": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
   },
   "dependencies": {
     "inversiland": "^0.6.2",

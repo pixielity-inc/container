@@ -147,7 +147,8 @@ packages/{category}/{package-name}/
     "test:watch": "vitest",
     "test:coverage": "vitest --run --coverage",
     "test:ui": "vitest --ui",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json}\""
   },
   "peerDependencies": {
     "@pixielity/container": "workspace:*",
@@ -183,6 +184,30 @@ packages/{category}/{package-name}/
 - Provide dual exports (ESM + CJS) via `exports` field
 - Mark `react` as optional peer dependency if package has React hooks/components
 - Use `workspace:*` for internal dependencies
+
+**Required Scripts:**
+- `build` - Build the package using tsup
+- `dev` - Watch mode for development
+- `test` - Run tests once (for CI)
+- `test:watch` - Watch mode for tests during development
+- `format` - Format code with Prettier
+- `format:check` - Check formatting (for CI)
+- `lint` - Lint code (optional, if using ESLint)
+- `lint:fix` - Fix linting issues
+- `check-types` - Type check without emitting files
+- `clean` - Remove build artifacts
+
+**Required devDependencies:**
+- `@nesvel/prettier-config` - Prettier configuration
+- `@nesvel/typescript-config` - TypeScript configuration
+- `@nesvel/tsup-config` - Build configuration (optional)
+- `prettier` - Code formatter
+- `tsup` - Build tool
+- `typescript` - TypeScript compiler
+- `vitest` - Test runner
+- `@vitest/ui` - Test UI (optional)
+- `@types/node` - Node.js type definitions
+- For React packages: `@types/react`, `react`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`
 
 ### 2. tsconfig.json
 
