@@ -1,8 +1,8 @@
-# Lifecycle Hooks in @abdokouta/react-di
+# Lifecycle Hooks in @abdokouta/ts-container
 
 ## Overview
 
-Lifecycle hooks in `@abdokouta/react-di` are provided by the underlying Inversiland/InversifyJS framework. These hooks allow you to execute code when a service instance is created or destroyed.
+Lifecycle hooks in `@abdokouta/ts-container` are provided by the underlying Inversiland/InversifyJS framework. These hooks allow you to execute code when a service instance is created or destroyed.
 
 ## Available Hooks
 
@@ -80,7 +80,7 @@ export class AppModule {}
 ## Complete Example
 
 ```typescript
-import { Injectable, Module, Inject } from "@abdokouta/react-di";
+import { Injectable, Module, Inject } from "@abdokouta/ts-container";
 
 @Injectable()
 class DatabaseService {
@@ -291,7 +291,7 @@ class MyService {
 When using lifecycle hooks with React, be aware of the component lifecycle:
 
 ```typescript
-import { useInject } from "@abdokouta/react-di";
+import { useInject } from "@abdokouta/ts-container-react";
 import { useEffect } from "react";
 
 function MyComponent() {
@@ -325,7 +325,7 @@ class MyService implements OnModuleInit, OnModuleDestroy {
   onModuleDestroy() { /* cleanup */ }
 }
 
-// @abdokouta/react-di (via Inversiland)
+// @abdokouta/ts-container (via Inversiland)
 {
   provide: MyService,
   useClass: MyService,
@@ -348,7 +348,7 @@ class MyService implements OnInit, OnDestroy {
   }
 }
 
-// @abdokouta/react-di (via Inversiland)
+// @abdokouta/ts-container (via Inversiland)
 // Same as NestJS example above
 ```
 

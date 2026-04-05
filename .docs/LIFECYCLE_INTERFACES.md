@@ -2,7 +2,7 @@
 
 ## Overview
 
-`@abdokouta/react-di` provides NestJS-style lifecycle interfaces that allow services to hook into the module initialization and destruction phases.
+`@abdokouta/ts-container` provides NestJS-style lifecycle interfaces that allow services to hook into the module initialization and destruction phases.
 
 ## Available Interfaces
 
@@ -27,7 +27,7 @@ interface OnModuleInit {
 **Example:**
 
 ```typescript
-import { Injectable, Inject, OnModuleInit } from "@abdokouta/react-di";
+import { Injectable, Inject, OnModuleInit } from "@abdokouta/ts-container";
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
@@ -71,7 +71,7 @@ interface OnModuleDestroy {
 **Example:**
 
 ```typescript
-import { Injectable, OnModuleDestroy } from "@abdokouta/react-di";
+import { Injectable, OnModuleDestroy } from "@abdokouta/ts-container";
 
 @Injectable()
 export class DatabaseService implements OnModuleDestroy {
@@ -97,7 +97,7 @@ import {
   Module,
   hasOnModuleInit,
   hasOnModuleDestroy,
-} from "@abdokouta/react-di";
+} from "@abdokouta/ts-container";
 
 @Module({
   providers: [
@@ -132,7 +132,7 @@ import {
   Inject,
   OnModuleInit,
   OnModuleDestroy,
-} from "@abdokouta/react-di";
+} from "@abdokouta/ts-container";
 
 @Injectable()
 export class CacheService implements OnModuleInit, OnModuleDestroy {
@@ -186,7 +186,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
 The package provides type guard functions to check if an object implements the lifecycle interfaces:
 
 ```typescript
-import { hasOnModuleInit, hasOnModuleDestroy } from "@abdokouta/react-di";
+import { hasOnModuleInit, hasOnModuleDestroy } from "@abdokouta/ts-container";
 
 const service = new MyService();
 
@@ -305,7 +305,7 @@ export class MyService implements OnModuleInit, OnModuleDestroy {
 }
 ```
 
-### @abdokouta/react-di
+### @abdokouta/ts-container
 
 ```typescript
 @Injectable()
@@ -371,7 +371,7 @@ export class MyModule {}
 When using lifecycle hooks with React:
 
 ```typescript
-import { useInject } from '@abdokouta/react-di';
+import { useInject } from '@abdokouta/ts-container';
 import { useEffect } from 'react';
 
 function MyComponent() {

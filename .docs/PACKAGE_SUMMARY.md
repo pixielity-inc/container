@@ -1,4 +1,4 @@
-# @abdokouta/react-di - Package Summary
+# @abdokouta/ts-container - Package Summary
 
 ## 📦 Package Overview
 
@@ -18,7 +18,7 @@ This is a monorepo project using:
 ```
 .
 ├── packages/
-│   └── container/               # @abdokouta/react-di package
+│   └── container/               # @abdokouta/ts-container package
 │       ├── src/
 │       │   ├── decorators/      # 9 decorators
 │       │   ├── hooks/           # 3 React hooks
@@ -431,7 +431,7 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Package**: @abdokouta/react-di
+**Package**: @abdokouta/ts-container
 **Version**: 1.0.0
 **Status**: Production Ready ✅
 **Last Updated**: March 29, 2026

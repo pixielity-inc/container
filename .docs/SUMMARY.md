@@ -2,7 +2,7 @@
 
 ## Lifecycle Interfaces Implementation
 
-We've successfully added NestJS-style lifecycle interfaces to `@abdokouta/react-di`:
+We've successfully added NestJS-style lifecycle interfaces to `@abdokouta/ts-container`:
 
 ### New Interfaces
 
@@ -25,7 +25,7 @@ import {
   OnModuleDestroy,
   hasOnModuleInit,
   hasOnModuleDestroy,
-} from "@abdokouta/react-di";
+} from "@abdokouta/ts-container";
 ```
 
 ### Usage Example
@@ -36,7 +36,7 @@ import {
   Inject,
   OnModuleInit,
   OnModuleDestroy,
-} from "@abdokouta/react-di";
+} from "@abdokouta/ts-container";
 
 @Injectable()
 export class MyService implements OnModuleInit, OnModuleDestroy {
@@ -108,7 +108,7 @@ Three comprehensive documentation files:
 
 ## Comparison with NestJS
 
-| Feature         | NestJS       | @abdokouta/react-di       |
+| Feature         | NestJS       | @abdokouta/ts-container       |
 | --------------- | ------------ | ------------------------- |
 | Interface names | ✅ Same      | ✅ Same                   |
 | Method names    | ✅ Same      | ✅ Same                   |
@@ -131,7 +131,7 @@ The main difference is that NestJS automatically calls these methods, while our 
 To use these interfaces in your project:
 
 1. Build the package: `npm run build`
-2. Import the interfaces: `import { OnModuleInit, OnModuleDestroy } from '@abdokouta/react-di'`
+2. Import the interfaces: `import { OnModuleInit, OnModuleDestroy } from '@abdokouta/ts-container'`
 3. Implement in your services
 4. Configure module providers with lifecycle hooks
 5. See documentation for complete examples
