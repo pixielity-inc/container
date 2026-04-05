@@ -1,0 +1,62 @@
+{
+  "name": "@abdokouta/ts-container-react",
+  "version": "1.0.0",
+  "description": "React bindings for @abdokouta/ts-container. ContainerProvider, useInject, useOptionalInject, useContainer hooks.",
+  "keywords": [
+    "dependency-injection",
+    "di",
+    "react",
+    "hooks",
+    "container",
+    "provider",
+    "useInject",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Pixielity",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@abdokouta/ts-container": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "react": "^19.2.4",
+    "tsup": "^8.5.1",
+    "@nesvel/typescript-config": "^1.0.4",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
