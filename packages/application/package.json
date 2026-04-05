@@ -1,0 +1,56 @@
+{
+  "name": "@abdokouta/ts-application",
+  "version": "1.0.0",
+  "description": "Application bootstrap layer for @abdokouta/ts-container. Provides ApplicationContext.create() to scan modules, instantiate providers, and run lifecycle hooks.",
+  "keywords": [
+    "dependency-injection",
+    "di",
+    "application",
+    "bootstrap",
+    "nestjs",
+    "lifecycle",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Pixielity",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@abdokouta/ts-container": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2",
+    "@nesvel/typescript-config": "^1.0.4",
+    "vitest": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
