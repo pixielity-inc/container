@@ -217,6 +217,10 @@ export class Injector {
    * 1. Resolving the factory's `inject` dependencies
    * 2. Calling the factory function with the resolved deps
    * 3. Awaiting the result if it's a Promise
+   *
+   * For `useExisting` (alias) providers, the factory's dependencies
+   * are resolved in the factory's host module, not the consumer's module.
+   * This ensures cross-module aliases work correctly.
    */
   private async resolveFactory<T>(
     wrapper: InstanceWrapper<T>,
@@ -225,11 +229,17 @@ export class Injector {
     const factory = wrapper.metatype as Function;
     const injectTokens = wrapper.inject ?? [];
 
+    // Use the factory's host module for dependency resolution.
+    // This is critical for useExisting aliases — the alias lives in
+    // module A but is consumed from module B. The alias's inject deps
+    // (e.g., the target class) must be resolved in module A, not B.
+    const resolveContext = wrapper.host ?? moduleRef;
+
     // Resolve factory dependencies
     const resolvedDeps = await Promise.all(
       injectTokens.map(async (token) => {
         try {
-          return await this.resolveDependency(token, moduleRef);
+          return await this.resolveDependency(token, resolveContext);
         } catch (err) {
           throw new Error(
             `Cannot resolve factory dependency '${this.getTokenName(token)}' ` +
